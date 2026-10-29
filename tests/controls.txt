@@ -1,0 +1,93 @@
+# Boot the unmodified ROM, create chain/phrase through normal navigation.
+master 4096
+wait 5000
+expect fault 0
+expect screen 0
+shot boot.png
+tap GLO
+press REC
+tap ARP
+release REC
+wait 100
+expect screen 1
+tap GLO
+press REC
+tap ARP
+release REC
+wait 100
+expect screen 2
+shot phrase-empty.png
+tapkey 7
+expect row 1
+shot note-c4.png
+tap PLAY
+expect row 2
+tap EDIT
+expect row 1
+tap EDIT
+expect row 0
+tap EDIT
+expect row 15
+tapkey 14
+expect row 0
+key 7 down
+wait 400
+expect row 1
+key 7 up
+wait 100
+expect row 1
+press REC
+tap GLO
+release REC
+expect playing 1
+wav sequence.wav
+wait 4000
+wavstop
+press REC
+tap GLO
+release REC
+expect playing 0
+expect fault 0
+expect dropped 0
+shot phrase-final.png
+# Save through the ROM's own FILES menu, persist, reboot, then LOAD.
+press REC
+tap HOME
+release REC
+expect screen 1
+press REC
+tap HOME
+release REC
+expect screen 0
+press REC
+tap SAVE
+release REC
+expect screen 10
+press REC
+tap GLO
+release REC
+tap GLO
+wait 300
+tap GLO
+wait 2200
+expect generation >0
+shot files-saved.png
+reboot
+wait 3000
+expect fault 0
+expect screen 0
+expect note0 0
+press REC
+tap SAVE
+release REC
+expect screen 10
+press REC
+tap GLO
+release REC
+tap SAVE
+tap GLO
+wait 300
+tap GLO
+wait 1000
+expect note0 16
+shot files-loaded.png

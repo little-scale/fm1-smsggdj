@@ -1,0 +1,17 @@
+name = "GGDJ-FM1"
+id_prefix = "FM-1_95"
+usb_manufacturer = "little-scale"
+usb_product = "GGDJ FM1"
+o2 = ["engine.c", "save.c", "profile.c", "manager.c", "vendor/smsplus/cpu/z80.c", "vendor/smsplus/memz80.c", "vendor/smsplus/pio.c", "vendor/smsplus/render.c", "vendor/smsplus/sms.c", "vendor/smsplus/system.c", "vendor/smsplus/tms.c", "vendor/smsplus/vdp.c", "vendor/smsplus/sound/sn76489.c", "vendor/smsplus/sound/sound.c"]
+include = ["vendor/smsplus"]
+o2_cflags = ["-fno-strict-aliasing", "-Wno-unused-variable", "-Wno-sign-compare"]
+vendored = ["vendor/", "platform/"]
+mmio_skip = ["save.c"]
+ble = false
+usb_audio_in = true
+usb_audio_out = false
+mirror = true
+words = "words.tsv"
+gen = ["tools/generate.py {gen}"]
+tagline = "Game Gear tracker with keyboard step entry"
+licence = "Mixed licences; see THIRD_PARTY.md"
