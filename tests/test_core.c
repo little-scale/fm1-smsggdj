@@ -132,14 +132,14 @@ static void real_rom(const char *dir)
     R(PHR_COL)=3;event(GG_NOTE,69);
     CHECK(p[0]==25 && p[1]==4 && p[2]==11 && p[3]==0x23 && R(PHR_COL)==0);
     p[1]=p[2]=p[3]=0;R(LAST_INSTR)=0;
-    /* Clear the complete current row, preserve neighbors, wrap, and obey
+    /* Clear the complete current row, preserve neighbors/cursor, and obey
      * the same screen/selection/navigation guards as keyboard entry. */
     R(PHR_ROW)=15;p=at(RAM_PHRASE_POOL+60);memcpy(step,at(RAM_PHRASE_POOL+56),4);
     p[0]=23;p[1]=4;p[2]=11;p[3]=0x23;R(SONG_EDITED)=0;
-    event(GG_CLEAR,0);CHECK(gg_row()==0 && !p[0] && p[1]==255 && !p[2] && !p[3]);
+    event(GG_CLEAR,0);CHECK(gg_row()==15 && !p[0] && p[1]==255 && !p[2] && !p[3]);
     CHECK(R(SONG_EDITED)==1 && !memcmp(step,at(RAM_PHRASE_POOL+56),4));
-    R(SEL_ACTIVE)=1;event(GG_CLEAR,0);CHECK(gg_row()==0);R(SEL_ACTIVE)=0;
-    R(SCR_MODE)=0;event(GG_CLEAR,0);CHECK(gg_row()==0);R(SCR_MODE)=2;
+    R(SEL_ACTIVE)=1;event(GG_CLEAR,0);CHECK(gg_row()==15);R(SEL_ACTIVE)=0;
+    R(SCR_MODE)=0;event(GG_CLEAR,0);CHECK(gg_row()==15);R(SCR_MODE)=2;
     before=gg_row();CHECK(!gg_enqueue(GG_NOTE,44));CHECK(!gg_enqueue(GG_NOTE,156));CHECK(gg_row()==(int)before);
     R(SEL_ACTIVE)=1;event(GG_NOTE,72);CHECK(gg_row()==(int)before);R(SEL_ACTIVE)=0;
     R(SCR_MODE)=0;event(GG_NOTE,72);CHECK(gg_row()==(int)before);R(SCR_MODE)=2;

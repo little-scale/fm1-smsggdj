@@ -77,13 +77,13 @@ initial test sequence and current limits.
 | Keyboard | On PHRASE, enter a note and advance a row |
 | PLAY | On PHRASE, advance without changing the step |
 | EDIT | On PHRASE, go back without changing the step |
-| LFO | On PHRASE, clear the complete current step and advance a row |
+| LFO | On PHRASE, clear the complete current step; keep the cursor on that row |
 | OCT− / OCT+ | Transpose subsequent keyboard entries by an octave |
 | MASTER | Output level |
 
 LFO clears note, instrument and both effect bytes to the ROM's empty-row
-values, without shifting other rows. Like note entry it acts once per press
-and advances with wrapping. It does not cut off an already sounding voice.
+values, without shifting other rows. It acts once per press and keeps the
+cursor on the current row. It does not cut off an already sounding voice.
 
 The PHRASE cursor wraps 15→0 and 0→15. Press edges enter notes; holding or
 releasing a key does not enter or erase another note. An existing valid

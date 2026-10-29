@@ -134,7 +134,6 @@ void fmgg_instruction(uint16_t pc)
                 step[0] = 0; step[1] = 255; step[2] = step[3] = 0;
                 R(SONG_EDITED) = 1;
                 R(DT1_TIMER) = 0; R(TP_DT) = 0;
-                R(PHR_ROW) = (R(PHR_ROW) + 1u) & 15u;
             } else {
                 R(PHR_ROW) = (R(PHR_ROW) + (ev.kind == GG_FORWARD ? 1u : 15u)) & 15u;
             }

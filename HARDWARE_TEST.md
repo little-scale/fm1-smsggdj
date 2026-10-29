@@ -45,7 +45,7 @@ CPU load is smoothed, so zero new overruns is more useful than one low reading.
 | Create a phrase | GLO on SONG; REC+ARP; GLO on CHAIN; REC+ARP |
 | Keyboard | One note and one-row advance per press; hold/release adds no extra note |
 | PLAY / EDIT on PHRASE | Forward/back one step, unchanged note; wrap at 16 |
-| LFO on PHRASE | Clear all four step bytes and advance; hold adds no repeats; other rows stay put |
+| LFO on PHRASE | Clear all four step bytes; cursor stays on the current row; other rows stay put |
 | Transport | Hold REC then tap GLO; repeat to stop |
 | Audio | TONE, KIT on T1/T2/T3, WAV; listen for gaps, distortion and hangs during navigation |
 | Save / power cycle | FILES SAVE with confirmation; wait CARTRIDGE SAVED; cycle power; FILES LOAD restores song |

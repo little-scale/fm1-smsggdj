@@ -7,8 +7,8 @@
   "wasm": {
     "success": true,
     "checks": 15,
-    "peak": 0.17062485218048096,
-    "wasm_bytes": 232975,
+    "peak": 0.18026995658874512,
+    "wasm_bytes": 232939,
     "hardware_timing_verified": false
   },
   "manager": {
@@ -62,5 +62,6 @@
     "live VRAM changes",
     "8x16 sprite second tile"
   ],
-  "reproducible_core_import": true
+  "reproducible_core_import": true,
+  "lfo_clear_keeps_cursor": true
 }
