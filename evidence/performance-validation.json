@@ -1,0 +1,66 @@
+{
+  "hardware_audio_retest_pending": true,
+  "default_rom_unchanged": true,
+  "audio_rate_hz": 44100,
+  "native_host_panel": true,
+  "ubsan": true,
+  "wasm": {
+    "success": true,
+    "checks": 15,
+    "peak": 0.17062485218048096,
+    "wasm_bytes": 232975,
+    "hardware_timing_verified": false
+  },
+  "manager": {
+    "success": true,
+    "checks": 24,
+    "rom_upload_bytes": 131072,
+    "lost_ack_retries": true,
+    "interrupted_rom_fallback": true,
+    "hardware_usb_verified": false
+  },
+  "reference": {
+    "tone": {
+      "identical": true,
+      "bytes": 1815424,
+      "peak": 892,
+      "nonzero_samples": 575438,
+      "reference_sha256": "851b788f6f98499846580cbddfb182923713afa542b9871a504750ef41df7493",
+      "compact_sha256": "851b788f6f98499846580cbddfb182923713afa542b9871a504750ef41df7493"
+    },
+    "kit": {
+      "identical": true,
+      "bytes": 1815424,
+      "peak": 892,
+      "nonzero_samples": 490000,
+      "reference_sha256": "ca4ec7f180b539e8fdc3e7764a005487dd5ed5c000cd5c2467083b21ebfa1c72",
+      "compact_sha256": "ca4ec7f180b539e8fdc3e7764a005487dd5ed5c000cd5c2467083b21ebfa1c72"
+    },
+    "wav": {
+      "identical": true,
+      "bytes": 1815424,
+      "peak": 1784,
+      "nonzero_samples": 144916,
+      "reference_sha256": "9cce0fa65188df1f682d0a80ead7e9019850e5c2ae74a695e2b58675741d4ac9",
+      "compact_sha256": "9cce0fa65188df1f682d0a80ead7e9019850e5c2ae74a695e2b58675741d4ac9"
+    }
+  },
+  "freestanding_32bit_syntax_units": 14,
+  "tile_cache_bytes": 49152,
+  "cpu_edge_tests": [
+    "HALT cycle rounding",
+    "refresh wrap",
+    "masked IRQ",
+    "IRQ wake",
+    "EI shadow",
+    "NMI wake"
+  ],
+  "tile_tests": [
+    "393216 pixel checks",
+    "cache hits",
+    "horizontal/vertical flips",
+    "live VRAM changes",
+    "8x16 sprite second tile"
+  ],
+  "reproducible_core_import": true
+}

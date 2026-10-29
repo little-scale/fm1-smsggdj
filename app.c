@@ -10,6 +10,9 @@ static int octave, save_failed, ready, force_redraw;
 static uint32_t manager_seen;
 static char status[48];
 static uint32_t status_until;
+static uint8_t painted[144][160];
+static uint16_t painted_palette[32];
+static int painted_valid;
 
 static unsigned gg_len(const char *s) { unsigned n=0; while (s[n]) ++n; return n; }
 static int gg_equal(const char *a, const char *b) { while (*a && *a == *b) { ++a; ++b; } return *a == *b; }
@@ -37,7 +40,7 @@ void app_say(const char *a, const char *b)
 void app_init(void)
 {
     keys_before = buttons_before = last_draw = last_poll = 0;
-    octave = save_failed = 0; status_until = 0;
+    octave = save_failed = painted_valid = 0; status_until = 0;
     ready = gg_manager_boot();
 #ifdef PLAT_WEB
     gg_hold(1); /* browser restores its persisted flash before execution */
@@ -72,6 +75,7 @@ static void controls(void)
     if (edges & (1u << B_OCTUP)) { octave = clamp(octave + 1, -1, 6); force_redraw = 1; }
     if (edges & (1u << B_PLAY)) gg_enqueue(GG_FORWARD, 0);
     if (edges & (1u << B_EDIT)) gg_enqueue(GG_BACK, 0);
+    if (edges & (1u << B_LFO)) gg_enqueue(GG_CLEAR, 0);
     for (k = 0; k < NKEYS; ++k) if (notes & (1u << k)) {
         int note = 53 + (int)k + octave * 12;
         if (!gg_enqueue(GG_NOTE, (unsigned)note)) app_say("NOTE NOT ENTERED", "RANGE OR QUEUE");
@@ -108,21 +112,31 @@ static void draw(void)
     char line[48], number[12];
     const uint8_t *image = gg_picture();
     const uint16_t *palette = gg_palette();
+    int palette_changed = !painted_valid || memcmp(painted_palette, palette, sizeof painted_palette);
     cv_begin(240, 12, C_BLACK);
     cv_text(2, 0, &FONT_T, "GGDJ", C_WHITE);
     gg_int(octave, number);
     gg_copy(line, "OCT ", sizeof line);
     gg_copy(line + gg_len(line), number, sizeof line - gg_len(line));
     cv_text(49, 0, &FONT_T, line, C_WHITE);
-    if (gg_faulted()) cv_text(110, 0, &FONT_T, "CORE FAULT", C_WHITE);
-    else cv_text(110, 0, &FONT_T, gg_playing() ? "PLAY" : "STOP", C_WHITE);
+    gg_copy(line, gg_faulted() ? "FAULT " : gg_playing() ? "PLAY " : "STOP ", sizeof line);
     gg_int((int32_t)plat_cpu_pct(), number);
-    cv_text(174, 0, &FONT_T, number, C_WHITE);
-    cv_text(204, 0, &FONT_T, "%", C_WHITE);
+    gg_copy(line + gg_len(line), number, sizeof line - gg_len(line));
+    gg_copy(line + gg_len(line), "% X", sizeof line - gg_len(line));
+    gg_int((int32_t)plat_xruns(), number);
+    gg_copy(line + gg_len(line), number, sizeof line - gg_len(line));
+    cv_text(105, 0, &FONT_T, line, C_WHITE);
     cv_blit(0, 0);
     /* 160x144 -> 240x216, nearest-neighbour, original GG aspect ratio. */
     for (y = 0; y < 216; y += 12) {
-        unsigned row;
+        unsigned row, sy0 = y * 2u / 3u;
+        int changed = palette_changed;
+        if (!changed) for (row = 0; row < 8; ++row) {
+            if (memcmp(painted[sy0 + row], image + (sy0 + row) * 256u + 48u, 160u)) {
+                changed = 1; break;
+            }
+        }
+        if (!changed) continue;
         cv_begin(240, 12, C_BLACK);
         for (row = 0; row < 12; ++row) {
             unsigned sy = (y + row) * 2u / 3u;
@@ -132,13 +146,17 @@ static void draw(void)
             }
         }
         cv_blit(0, 12 + y);
+        for (row = 0; row < 8; ++row)
+            memcpy(painted[sy0 + row], image + (sy0 + row) * 256u + 48u, 160u);
     }
+    memcpy(painted_palette, palette, sizeof painted_palette);
+    painted_valid = 1;
     cv_begin(240, 12, C_BLACK);
     if (plat_ms() < status_until) cv_text(2, 0, &FONT_T, status, C_WHITE);
-    else cv_text(2, 0, &FONT_T, "GLO 1   REC 2   PLAY >   EDIT <", C_WHITE);
+    else cv_text(2, 0, &FONT_T, "LFO CLEAR   PLAY >   EDIT <", C_WHITE);
     cv_blit(0, 228);
 }
-void app_ui_init(void) { lcd_fill(0, 0, 240, 240, C_BLACK); force_redraw = 1; }
+void app_ui_init(void) { lcd_fill(0, 0, 240, 240, C_BLACK); painted_valid = 0; force_redraw = 1; }
 void app_frame(void)
 {
     gg_manager_tick(plat_ms());
@@ -153,7 +171,7 @@ void app_frame(void)
     }
 }
 void app_input_only(void) { controls(); }
-void app_redraw(void) { force_redraw = 1; }
+void app_redraw(void) { painted_valid = 0; force_redraw = 1; }
 int app_expect(const char *what, int *got)
 {
     if (gg_equal(what, "screen")) *got = gg_screen();

@@ -13,6 +13,8 @@
 static unsigned checks;
 unsigned gg_test_flags(unsigned key, int sub);
 unsigned gg_test_pixel(unsigned bg, unsigned sp);
+int gg_test_halt(void);
+int gg_test_tile_cache(void);
 static int32_t block[512];
 static unsigned peak, nonzero;
 static FILE *audio;
@@ -61,6 +63,8 @@ static void tables(void)
         CHECK(gg_test_pixel(bg,sp)==expected);
     }
     puts("PASS 262144 arithmetic flags and 65536 sprite/background combinations");
+    CHECK(gg_test_halt());CHECK(gg_test_tile_cache());
+    puts("PASS HALT cycle/refresh/IRQ/EI/NMI boundaries and 393216 cached tile pixels, flips and live VRAM changes");
 }
 
 /* Real NOR flash model with fail-before-operation power-loss injection. */
@@ -68,6 +72,8 @@ static uint8_t flash[0x49000], baseline[sizeof flash], saved[GG_SRAM_BYTES], res
 static int fail_after=-1, operations;
 static uint32_t simulated_ms;
 uint32_t plat_ms(void) { return simulated_ms; }
+uint32_t plat_cpu_pct(void) { return 37; }
+uint32_t plat_xruns(void) { return 5; }
 const uint8_t *plat_data(uint32_t off) { return off>=0x97000 && off<0xe0000 ? flash+(off-0x97000) : 0; }
 static int fail(void) { return fail_after>=0 && operations++==fail_after; }
 int plat_data_erase(uint32_t off)
@@ -126,6 +132,14 @@ static void real_rom(const char *dir)
     R(PHR_COL)=3;event(GG_NOTE,69);
     CHECK(p[0]==25 && p[1]==4 && p[2]==11 && p[3]==0x23 && R(PHR_COL)==0);
     p[1]=p[2]=p[3]=0;R(LAST_INSTR)=0;
+    /* Clear the complete current row, preserve neighbors, wrap, and obey
+     * the same screen/selection/navigation guards as keyboard entry. */
+    R(PHR_ROW)=15;p=at(RAM_PHRASE_POOL+60);memcpy(step,at(RAM_PHRASE_POOL+56),4);
+    p[0]=23;p[1]=4;p[2]=11;p[3]=0x23;R(SONG_EDITED)=0;
+    event(GG_CLEAR,0);CHECK(gg_row()==0 && !p[0] && p[1]==255 && !p[2] && !p[3]);
+    CHECK(R(SONG_EDITED)==1 && !memcmp(step,at(RAM_PHRASE_POOL+56),4));
+    R(SEL_ACTIVE)=1;event(GG_CLEAR,0);CHECK(gg_row()==0);R(SEL_ACTIVE)=0;
+    R(SCR_MODE)=0;event(GG_CLEAR,0);CHECK(gg_row()==0);R(SCR_MODE)=2;
     before=gg_row();CHECK(!gg_enqueue(GG_NOTE,44));CHECK(!gg_enqueue(GG_NOTE,156));CHECK(gg_row()==(int)before);
     R(SEL_ACTIVE)=1;event(GG_NOTE,72);CHECK(gg_row()==(int)before);R(SEL_ACTIVE)=0;
     R(SCR_MODE)=0;event(GG_NOTE,72);CHECK(gg_row()==(int)before);R(SCR_MODE)=2;
@@ -167,6 +181,7 @@ static void management(void)
     static const int cuts[]={0,8,9,137,138,139,170,171,682,683,684};
     memset(flash,255,sizeof flash);CHECK(gg_manager_boot());run(44100*4);
     CHECK(gg_boot_ready());CHECK(command(GM_INFO,0,0)==GM_OK);
+    CHECK(command(GM_STATS,0,0)==GM_OK);CHECK(answer[9]==37 && answer[13]==5);
     R(PLAY_STATE)=1;args[0]=0;CHECK(command(GM_READ_BEGIN,args,1)==GM_PLAYING);R(PLAY_STATE)=0;
     CHECK(command(GM_READ_BEGIN,args,1)==GM_OK);p32(args,GG_SRAM_BYTES);args[4]=1;args[5]=0;
     CHECK(command(GM_READ,args,6)==GM_RANGE);CHECK(command(GM_END,0,0)==GM_OK);

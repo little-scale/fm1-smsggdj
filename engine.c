@@ -72,7 +72,7 @@ void gg_set_pad(uint8_t mask) { requested_pad = mask & 63u; }
 int gg_enqueue(unsigned action, unsigned midi)
 {
     unsigned w = event_write, next = (w + 1u) & (QUEUE_SIZE - 1u);
-    if (action > GG_BACK || (action == GG_NOTE && (midi < active_profile.midi_low || midi > active_profile.midi_high))) return 0;
+    if (action > GG_CLEAR || (action == GG_NOTE && (midi < active_profile.midi_low || midi > active_profile.midi_high))) return 0;
     if (next == event_read) { ++dropped; return 0; }
     events[w].kind = (uint8_t)action;
     events[w].midi = (uint8_t)midi;
@@ -128,6 +128,13 @@ void fmgg_instruction(uint16_t pc)
                 R(PAD_RAW) = R(PAD_EDGE) = 16; /* normal insert/audition */
                 R(PAD_REP) = 0;
                 advance_pending = 1;
+            } else if (ev.kind == GG_CLEAR) {
+                /* Original ROM empty-row format; no row shifting or audition. */
+                uint8_t *step = ram_at(GA(PHRASE_POOL) + R(CUR_PHRASE) * 64u + R(PHR_ROW) * 4u);
+                step[0] = 0; step[1] = 255; step[2] = step[3] = 0;
+                R(SONG_EDITED) = 1;
+                R(DT1_TIMER) = 0; R(TP_DT) = 0;
+                R(PHR_ROW) = (R(PHR_ROW) + 1u) & 15u;
             } else {
                 R(PHR_ROW) = (R(PHR_ROW) + (ev.kind == GG_FORWARD ? 1u : 15u)) & 15u;
             }

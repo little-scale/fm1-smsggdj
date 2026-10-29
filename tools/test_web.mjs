@@ -27,7 +27,7 @@ async function machine(journal) {
 }
 const m=await machine();m.run(44100*4);
 check((m.ex.gg_web_status()&255)===0,"SONG after boot");
-const glo=1<<5,rec=1<<11,arp=1<<8,play=1<<10,edit=1<<4;
+const glo=1<<5,rec=1<<11,arp=1<<8,play=1<<10,edit=1<<4,lfo=1<<3;
 m.tap(glo);m.buttons(rec);m.buttons(rec|arp);m.buttons(rec);m.buttons(0);
 check((m.ex.gg_web_status()&255)===1,"CHAIN navigation");
 m.tap(glo);m.buttons(rec);m.buttons(rec|arp);m.buttons(rec);m.buttons(0);
@@ -36,6 +36,12 @@ m.ex.web_keys(1<<7);m.run(4410);m.ex.web_keys(0);m.run(4410);
 check(((m.ex.gg_web_status()>>8)&255)===1,"key enters and advances");
 m.tap(play);check(((m.ex.gg_web_status()>>8)&255)===2,"skip forward");
 m.tap(edit);check(((m.ex.gg_web_status()>>8)&255)===1,"step back");
+m.tap(edit);m.tap(lfo);
+check(m.ex.gg_web_first_note()===0&&((m.ex.gg_web_status()>>8)&255)===1,"LFO clears the row and advances");
+m.buttons(lfo);m.run(22050);
+check(((m.ex.gg_web_status()>>8)&255)===2,"held LFO clears only once");
+m.buttons(0);m.tap(edit);m.tap(edit);
+m.ex.web_keys(1<<7);m.run(4410);m.ex.web_keys(0);m.run(4410);
 m.buttons(rec);m.buttons(rec|glo);m.buttons(rec);m.buttons(0);
 check((m.ex.gg_web_status()&65536)!==0,"transport starts");
 m.run(44100*2);

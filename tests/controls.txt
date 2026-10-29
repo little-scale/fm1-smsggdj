@@ -36,6 +36,20 @@ expect row 1
 key 7 up
 wait 100
 expect row 1
+tap EDIT
+tap LFO
+expect row 1
+expect note0 0
+press LFO
+wait 400
+expect row 2
+release LFO
+wait 100
+expect row 2
+tap EDIT
+tap EDIT
+tapkey 7
+expect row 1
 press REC
 tap GLO
 release REC

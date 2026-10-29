@@ -2136,6 +2136,16 @@ IRAM_ATTR int z80_execute(int cycles)
 
     if (z80_ICount > 0)
     {
+      /* FM1: no bus or interrupt source changes inside this execute slice.
+       * A halted CPU repeats the same four-T-state M1 cycle. Batch those
+       * cycles, including R increments and instruction-boundary overshoot.
+       * IRQ/NMI handling above still wakes HALT at the original boundary. */
+      if (HALT && !(Z80.irq_state != CLEAR_LINE && IFF1)) {
+        int repeats = (z80_ICount + 3) / 4;
+        R += repeats;
+        z80_ICount -= repeats * 4;
+        break;
+      }
       if (PC == fmgg_editor_pc || PC == fmgg_engine_pc) fmgg_instruction(PC);
       R++;
       EXEC_OP(ROP());

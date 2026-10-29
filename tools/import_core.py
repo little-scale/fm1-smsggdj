@@ -8,6 +8,7 @@ import hashlib
 import json
 import re
 import sys
+import subprocess
 from pathlib import Path
 
 APP = Path(__file__).resolve().parents[1]
@@ -171,6 +172,9 @@ s = s.replace('((uint64_t)frame_cycles * snd.sample_rate', '((uint32_t)frame_cyc
 s = s.replace('    /* 64-bit division only once per frame. A rational remainder avoids drift. */\n    uint64_t ticks = frame_phase + (uint64_t)frame_cycles * snd.sample_rate;',
               '    /* Maximum PAL frame * 48 kHz + remainder fits uint32_t. */\n    uint32_t ticks = frame_phase + (uint32_t)frame_cycles * snd.sample_rate;')
 p.write_text(s)
+
+# Reapply the small performance changes after the reproducible base import.
+subprocess.run(['git', 'apply', str(APP/'vendor/performance.patch')], cwd=APP, check=True)
 
 (APP / 'vendor/provenance.json').write_text(json.dumps({
     'source': 'https://github.com/ducalex/retro-go',

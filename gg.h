@@ -6,7 +6,7 @@
 #define GG_RATE 44100u
 #define GG_VIEW_W 160u
 #define GG_VIEW_H 144u
-enum { GG_NOTE, GG_FORWARD, GG_BACK };
+enum { GG_NOTE, GG_FORWARD, GG_BACK, GG_CLEAR };
 int gg_init(void);
 void gg_render(int32_t *lr, uint32_t n, uint32_t gain);
 void gg_set_pad(uint8_t mask);

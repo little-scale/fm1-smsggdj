@@ -1,11 +1,25 @@
 # First FM1 hardware test
 
 The source has passed native and compiled WASM tests. **The first device
-build passed on 30 October 2026; physical FM1 results are pending.** The
+build passed on 30 October 2026. Installation and boot on a real FM1 are
+confirmed; the user reported staggered/jittery audio.** The first
 252,492-byte image uses 29,176/98,304 bytes static RAM and 269,520/344,064 bytes
 pool RAM. All platform image, memory and instruction checks passed.
 Package identity: `FM-1_9500`; SHA-256:
 `9bc163b7719a4abe73f114b2c844d8d98c33123f9dd3a4e4fe49542e225055d6`.
+
+The current source adds cycle-equivalent HALT batching, a 48 KiB tile-row
+cache, changed-band LCD drawing and LFO row clearing. Host, UBSan, WASM,
+audio/video reference and cache/IRQ tests pass. Its device build and audio
+improvement remain to be tested. New image/RAM figures must come from that
+build; the first-build figures above are retained as a baseline.
+
+After installing the update, start the same problematic song and run
+`./Measure-GGDJ.command`. This reads counters for ten seconds and saves
+`build/device-performance.json`; it does not change playback or cartridge data.
+Also observe CPU and `X` in the screen header. For a real-time run, the emulated
+frame rate should stay close to 59.92 Hz and `new_xruns` should be zero. Sampled
+CPU load is smoothed, so zero new overruns is more useful than one low reading.
 
 ## Build
 
@@ -31,6 +45,7 @@ Package identity: `FM-1_9500`; SHA-256:
 | Create a phrase | GLO on SONG; REC+ARP; GLO on CHAIN; REC+ARP |
 | Keyboard | One note and one-row advance per press; hold/release adds no extra note |
 | PLAY / EDIT on PHRASE | Forward/back one step, unchanged note; wrap at 16 |
+| LFO on PHRASE | Clear all four step bytes and advance; hold adds no repeats; other rows stay put |
 | Transport | Hold REC then tap GLO; repeat to stop |
 | Audio | TONE, KIT on T1/T2/T3, WAV; listen for gaps, distortion and hangs during navigation |
 | Save / power cycle | FILES SAVE with confirmation; wait CARTRIDGE SAVED; cycle power; FILES LOAD restores song |

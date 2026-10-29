@@ -1,0 +1,32 @@
+{
+  "baseline_commit": "140b23b",
+  "hardware_measurement": false,
+  "frames_per_run": 600,
+  "repeats": 5,
+  "workloads": {
+    "tone": {
+      "median_seconds": {
+        "before": 0.06219062500167638,
+        "after": 0.04822575001162477
+      },
+      "speedup": 1.29,
+      "audio_video_identical": true
+    },
+    "kit": {
+      "median_seconds": {
+        "before": 0.06511833300464787,
+        "after": 0.05793554199044593
+      },
+      "speedup": 1.12,
+      "audio_video_identical": true
+    },
+    "wav": {
+      "median_seconds": {
+        "before": 0.06220712498179637,
+        "after": 0.051617042016005144
+      },
+      "speedup": 1.21,
+      "audio_video_identical": true
+    }
+  }
+}

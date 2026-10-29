@@ -24,6 +24,7 @@
 
 #include "shared.h"
 #include "hvc.h"
+#include "plat.h"
 
 struct
 {
@@ -144,6 +145,12 @@ static inline uint8 fmgg_pixel(uint8 bg, uint8 sp)
 
 /* Bitplane to packed pixel LUT */
 static uint32 fmgg_expand[256];
+/* FM1: cache each decoded tile row, keyed by its actual four VRAM bytes.
+ * Signatures also cover direct RAM restores and mid-frame pattern writes;
+ * no delayed invalidation or changes to VDP register/sprite timing. */
+static uint8 fmgg_tiles[512][8][8] PLAT_POOL;
+static uint32 fmgg_signatures[512][8] PLAT_POOL;
+static uint8 fmgg_tile_valid[512];
 
 static inline void parse_satb(int line);
 
@@ -152,11 +159,11 @@ static inline void parse_satb(int line);
 /* memcpy preserves native byte order without alignment or aliasing assumptions. */
 static inline uint32 read_dword(const void *address)
 {
-    uint32 value; memcpy(&value,address,sizeof(value)); return value;
+    uint32 value; __builtin_memcpy(&value,address,sizeof(value)); return value;
 }
 static inline void write_dword(void *address,uint32 value)
 {
-    memcpy(address,&value,sizeof(value));
+    __builtin_memcpy(address,&value,sizeof(value));
 }
 
 
@@ -381,13 +388,20 @@ static inline void* tile_get(int attr, int line)
     // ---p cvhn nnnn nnnn
     const uint16 name = attr & 0x1ff;
     const uint16 y = (attr & 0x400) ? (line ^ 7) : line;
-    const uint8 *ptr = &vdp.vram[(name << 5) | (y << 2)];
-    const uint32 temp = fmgg_expand[ptr[0]] | (fmgg_expand[ptr[1]] << 1)
-                      | (fmgg_expand[ptr[2]] << 2) | (fmgg_expand[ptr[3]] << 3);
-
-    for (size_t x = 0; x < 8; x++)
-        data[(attr & 0x200) ? (x ^ 7) : x] = (temp >> (x << 2)) & 0x0F;
-
+    const unsigned address = (name << 5) | (y << 2);
+    const unsigned tile = address >> 5, tile_row = (address >> 2) & 7u;
+    const uint8 *ptr = &vdp.vram[address];
+    const uint32 signature = read_dword(ptr);
+    uint8 *pixels = fmgg_tiles[tile][tile_row];
+    if (!(fmgg_tile_valid[tile] & (1u << tile_row)) || fmgg_signatures[tile][tile_row] != signature) {
+        const uint32 temp = fmgg_expand[ptr[0]] | (fmgg_expand[ptr[1]] << 1)
+                          | (fmgg_expand[ptr[2]] << 2) | (fmgg_expand[ptr[3]] << 3);
+        for (unsigned x = 0; x < 8; ++x) pixels[x] = (temp >> (x << 2)) & 15u;
+        fmgg_signatures[tile][tile_row] = signature;
+        fmgg_tile_valid[tile] |= 1u << tile_row;
+    }
+    if (!(attr & 0x200)) return pixels;
+    for (unsigned x = 0; x < 8; ++x) data[x ^ 7u] = pixels[x];
     return data;
 }
 

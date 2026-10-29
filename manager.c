@@ -70,11 +70,15 @@ uint32_t gg_manager_packet(const uint8_t *req,uint32_t n,uint8_t *out,uint32_t c
     uint16_t seq;const uint8_t *p;uint32_t len;
     if (n<4 || n>264 || req[0]!=1 || cap<GG_MANAGER_REPLY_MAX) return 0;
     op=req[1];seq=rd16(req+2);p=req+4;len=n-4;request_crc=gg_crc32(req,n);
-    if(op!=GM_INFO && cached_n && seq==cached_seq && op==cached_op && request_crc==cached_crc) {
+    if(op!=GM_INFO && op!=GM_STATS && cached_n && seq==cached_seq && op==cached_op && request_crc==cached_crc) {
         memcpy(out,cached,cached_n);if(mode)touched=now;return cached_n;
     }
     out[0]=1;out[1]=(uint8_t)(op|128);wr16(out+2,seq);out[4]=GM_OK;
-    if (op==GM_INFO && !len) {
+    if (op==GM_STATS && !len) {
+        /* Non-blocking counters: do not pause audio or scan cartridge SRAM. */
+        wr32(out+5,now);wr32(out+9,plat_cpu_pct());wr32(out+13,plat_xruns());
+        wr32(out+17,gg_frames());wr32(out+21,gg_faulted());data_n=20;
+    } else if (op==GM_INFO && !len) {
         uint8_t held=mode!=IDLE;
         if(!held)gg_hold(1);
         wr32(out+5,0x314A4447u);out[9]=mode;out[10]=gg_playing()!=0;out[11]=external_rom;out[12]=gg_boot_ready()!=0;
@@ -184,9 +188,9 @@ uint32_t gg_manager_packet(const uint8_t *req,uint32_t n,uint8_t *out,uint32_t c
             }
         }
     } else rc=GM_BAD;
-    if(mode && op!=GM_INFO)touched=plat_ms();
+    if(mode && op!=GM_INFO && op!=GM_STATS)touched=plat_ms();
     out[4]=(uint8_t)rc;
-    if(op!=GM_INFO) {
+    if(op!=GM_INFO && op!=GM_STATS) {
         cached_n=5+data_n;cached_op=op;cached_seq=seq;cached_crc=request_crc;memcpy(cached,out,cached_n);
     }
     return 5+data_n;

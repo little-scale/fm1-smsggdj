@@ -46,7 +46,7 @@
     "memz80.h": "6358b123aa059baebe62ce1b127cb99041d6a96c204cffcf6823c1fae489d034",
     "pio.c": "25a38d283cef9fedf0b2a34efb0d23b0925ede2bfff835d34bae680486c2bf6d",
     "pio.h": "12121f8e125bff743dc6fc593bbdee1156e1d85d764710a1a179cb3241847716",
-    "render.c": "48076fc91ec31802282b79e3ddfef61594f29322e38d82a57b44097ceeb5895c",
+    "render.c": "d4976449a21df9b5d018a368b19a470027b65db3230fbcec2f46b63e297ad48a",
     "render.h": "d0000379bb37df9c82aa1a106d08828a9c432f8edeeccf458fb33915ed73363c",
     "sms.c": "5990bf7df565ff14a869908f57ed6dc2ef44d50ea0646ae8fb11814a251f0806",
     "sms.h": "0898fb8a247ba8b0f74acab7767fdabf6d2d3bd8a19cb4eae0365ac2cebf7161",
@@ -58,7 +58,7 @@
     "vdp.h": "b3e46a35a3872d0cda9446f9709cc9a4832b2dc3c25a3ca0bcf7528dc0183336",
     "state.h": "326f1bc030ceb79eab269876b2031e2e3331643eb5acd4a9a3a54dea8163a161",
     "loadrom.h": "7fc5757878f439957ac72d64cb402dad88ac286eb398c7d841634b01e3894708",
-    "cpu/z80.c": "895525d63e979353d47ea7b714ffe00ba0264d6d22ef2757cb2f550172518dd9",
+    "cpu/z80.c": "f62da2c8752bed51c0dc7fd612bd3aaf5dd5dae0d60d64fbeaaf7c46dd5c59d2",
     "cpu/z80.h": "89b3423eba3bd7b822740b461670d19c74412aef8f82de49a45b3ecfcf5249d1",
     "cpu/cpuintrf.h": "7542e8887127321807330563d9eae4e6455e4588ee01ca0ce1d72cda9923b797",
     "cpu/osd_cpu.h": "4ec442a960f4905e625ab030adf413716782cf203936aea3790dcc2e4a3131f7",
@@ -72,5 +72,6 @@
   },
   "rom_modified": false,
   "fm1_manager_revision": "Runtime ROM profile PCs replace compile-time hook PCs.",
-  "freestanding_headers": "Device uses platform memory routines via compat.h; hosted stdio/stdlib/math/assert headers are host-only."
+  "freestanding_headers": "Device uses platform memory routines via compat.h; hosted stdio/stdlib/math/assert headers are host-only.",
+  "fm1_performance_revision": "Cycle-equivalent HALT batching; 48 KiB signature-checked decoded tile rows; explicit builtin tiny copies. See vendor/performance.patch."
 }

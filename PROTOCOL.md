@@ -28,6 +28,7 @@ Reply BODY: `[1, opcode|0x80, sequence:u16, status, data...]`, max 272 bytes.
 | 10 | ROM_COMMIT |
 | 11 | ABORT |
 | 12 | Restore built-in ROM |
+| 13 | STATS, no arguments; uptime ms, CPU percent, audio overruns, emulated frames, core fault (five u32 values) |
 
 Status codes: 0 OK; 1 bad request; 2 playing; 3 busy; 4 range; 5 CRC;
 6 flash; 7 stale SRAM; 8 profile; 9 state; 10 booting.
@@ -42,6 +43,10 @@ cached repeated sequence tolerate a lost reply. Commit verifies CRCs, persists
 data, then restarts the ROM with the staged SRAM. A stale current-SRAM CRC
 rejects a write. READ_END releases a read snapshot. ABORT releases a session;
 a partially overwritten ROM falls back to the built-in image.
+
+STATS is read-only, does not hold emulation or scan SRAM, and does not refresh
+another client's transfer lease. Replies are live rather than cached. It can
+be polled during playback; `tools/device_stats.py` supplies a reference logger.
 
 ## ROM profiles
 

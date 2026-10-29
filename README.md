@@ -5,7 +5,8 @@ a Game Gear emulator that boots the tracker, maps the FM1 keyboard to step
 entry through emulated RAM, and includes a browser cartridge manager.
 
 **Development prototype.** Host, actual WebAssembly tests and the JieLi device
-build pass. Physical FM1 testing remains outstanding; no hardware-tested
+build pass. The first build boots and runs on a physical FM1, but its audio
+stutters. The performance update below awaits a hardware retest; no validated
 binary is published. This port reuses the SMS Plus core from the earlier
 working ESP32-S3 setup. The default ROM is the unchanged SMSGGDJ **v0.48** Game
 Gear release, pinned with its symbol map and hash in `rom/manifest.json`.
@@ -76,8 +77,13 @@ initial test sequence and current limits.
 | Keyboard | On PHRASE, enter a note and advance a row |
 | PLAY | On PHRASE, advance without changing the step |
 | EDIT | On PHRASE, go back without changing the step |
+| LFO | On PHRASE, clear the complete current step and advance a row |
 | OCT− / OCT+ | Transpose subsequent keyboard entries by an octave |
 | MASTER | Output level |
+
+LFO clears note, instrument and both effect bytes to the ROM's empty-row
+values, without shifting other rows. Like note entry it acts once per press
+and advances with wrapping. It does not cut off an already sounding voice.
 
 The PHRASE cursor wraps 15→0 and 0→15. Press edges enter notes; holding or
 releasing a key does not enter or erase another note. An existing valid
@@ -161,6 +167,23 @@ A 120 KiB arena replaces the desktop heap; the tested core uses **107,914
 bytes**. Compact arithmetic and rendering replace about 575 KiB of lookup
 tables. The first device build is 252,492 bytes with 29,176/98,304 bytes static
 RAM and 269,520/344,064 bytes pool RAM; realtime performance awaits hardware tests.
+
+The performance update batches halted Z80 cycles while preserving refresh and
+interrupt boundaries, caches decoded tile rows in 48 KiB with live VRAM-byte
+validation, and repaints changed LCD bands instead of the full screen. It also
+inlines tiny renderer copies. Audio stays at 44.1 kHz with the same emulated
+clock and PSG write ordering. Current target memory use must be read from the
+new device build's checks; the figures above describe the first build.
+
+After rebuilding/installing, play the song that stuttered and run
+`./Measure-GGDJ.command` from Terminal. It reads ten seconds of CPU load,
+audio overruns, emulated frame rate and core-fault status without pausing
+playback or changing cartridge data. Results save to
+`build/device-performance.json`. The screen header shows CPU and `X` (cumulative
+audio overruns); an increasing `X` indicates missed audio deadlines. Native
+benchmarks in [evidence/performance-host.json](evidence/performance-host.json)
+show 1.12–1.29× core speedup across TONE/KIT/WAV; this is a host measurement,
+not an FM1 speed estimate. All compared audio and framebuffers remain byte-identical.
 
 The included suites cover:
 

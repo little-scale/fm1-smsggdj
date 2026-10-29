@@ -40,3 +40,8 @@ platform's freestanding memory routines and the existing emulator allocator.
 These modifications do not remove the original files' license obligations.
 `tools/import_core.py`
 reproduces the import from the earlier Waveshare core directory.
+
+`vendor/performance.patch` records the subsequent HALT batching, 48 KiB
+signature-checked decoded tile-row cache, and explicit tiny-copy intrinsics.
+The importer reapplies that patch and has been checked to reproduce every
+vendored source file. Those changes preserve the existing file licenses.
