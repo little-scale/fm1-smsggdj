@@ -66,9 +66,9 @@ static void controls(void)
     buttons_before = buttons; keys_before = keys;
     if(gg_manager_busy()) { gg_set_pad(0);return; }
     if ((buttons & (1u << B_SEL)) || (keys & (1u << 1))) pad |= 1;
-    if ((buttons & (1u << B_SAVE)) || (keys & (1u << 4))) pad |= 2;
+    if ((buttons & (1u << B_SAVE)) || (keys & (1u << 2))) pad |= 2;
     if ((buttons & (1u << B_HOME)) || (keys & (1u << 0))) pad |= 4;
-    if ((buttons & (1u << B_ARP)) || (keys & (1u << 2))) pad |= 8;
+    if ((buttons & (1u << B_ARP)) || (keys & (1u << 4))) pad |= 8;
     if (buttons & (1u << B_GLO)) pad |= 16;
     if (buttons & (1u << B_REC)) pad |= 32;
     gg_set_pad(pad);

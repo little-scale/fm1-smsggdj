@@ -67,8 +67,8 @@
   "reserved_keyboard_dpad": {
     "0": "left",
     "1": "up",
-    "2": "right",
-    "4": "down",
+    "2": "down",
+    "4": "right",
     "3": "original musical pitch"
   }
 }

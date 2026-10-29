@@ -74,7 +74,7 @@ initial test sequence and current limits.
 | SEL / SAVE | Up / Down |
 | HOME / ARP | Left / Right |
 | GLO / REC | Game Gear button 1 / button 2, including held chords |
-| Music keys 0 / 1 / 2 / 4 | D-pad Left / Up / Right / Down on all screens |
+| Music keys 0 / 1 / 2 / 4 | D-pad Left / Up / Down / Right on all screens |
 | Other music keys | On PHRASE, enter a note and advance a row |
 | PLAY | On PHRASE, advance without changing the step |
 | EDIT | On PHRASE, go back without changing the step |
