@@ -4,8 +4,8 @@
 a Game Gear emulator that boots the tracker, maps the FM1 keyboard to step
 entry through emulated RAM, and includes a browser cartridge manager.
 
-**Development prototype.** Host and actual WebAssembly tests pass. The JieLi
-firmware link and physical FM1 testing remain outstanding; no hardware-tested
+**Development prototype.** Host, actual WebAssembly tests and the JieLi device
+build pass. Physical FM1 testing remains outstanding; no hardware-tested
 binary is published. This port reuses the SMS Plus core from the earlier
 working ESP32-S3 setup. The default ROM is the unchanged SMSGGDJ **v0.48** Game
 Gear release, pinned with its symbol map and hash in `rom/manifest.json`.
@@ -48,6 +48,9 @@ python3 tools/build.py --device   # builds only; never installs or flashes
 
 On the configured Mac workspace, double-click **Preview-GGDJ.command**,
 **Manager-GGDJ.command**, **Verify-GGDJ.command**, or **Build-GGDJ.command**.
+After a successful device build, **Install-GGDJ.command** validates its hash,
+asks before installing, and checks the device identity after restart. Export
+work to preserve from the current firmware first; app storage is not migrated.
 The launchers optionally load a sibling workspace's `setup/env.sh`; a fresh
 checkout uses the tools on PATH. `FM1_BASE` can explicitly select another
 platform checkout; the default is the pinned submodule.
@@ -156,7 +159,8 @@ profiles supply validated hooks and RAM addresses.
 
 A 120 KiB arena replaces the desktop heap; the tested core uses **107,914
 bytes**. Compact arithmetic and rendering replace about 575 KiB of lookup
-tables. Final device RAM/flash occupancy awaits a successful JieLi link.
+tables. The first device build is 252,492 bytes with 29,176/98,304 bytes static
+RAM and 269,520/344,064 bytes pool RAM; realtime performance awaits hardware tests.
 
 The included suites cover:
 

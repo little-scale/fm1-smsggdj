@@ -1,9 +1,11 @@
 # First FM1 hardware test
 
-The source has passed native and compiled WASM tests. **A successful device
-link and actual hardware results have not yet been recorded.** The original
-development sandbox could not access Docker's socket; a device package was
-not produced or flashed there.
+The source has passed native and compiled WASM tests. **The first device
+build passed on 30 October 2026; physical FM1 results are pending.** The
+252,492-byte image uses 29,176/98,304 bytes static RAM and 269,520/344,064 bytes
+pool RAM. All platform image, memory and instruction checks passed.
+Package identity: `FM-1_9500`; SHA-256:
+`9bc163b7719a4abe73f114b2c844d8d98c33123f9dd3a4e4fe49542e225055d6`.
 
 ## Build
 
@@ -12,8 +14,13 @@ not produced or flashed there.
 2. Run `python3 tools/build.py --device` or `Build-GGDJ.command`. Check that
    `build/device-status.json` says `success: true` and the platform's RAM,
    image-size and instruction checks pass. Output: `build/ggdj-fm1.fwsc`.
-3. Use the existing fm1-base installation/recovery procedure for the FM1. The
-   build wrapper never installs anything automatically.
+3. Export work to preserve from the current firmware, then run
+   `./Install-GGDJ.command`. It checks the package against the successful build,
+   uses the pinned platform installer with its confirmation prompt, and checks
+   the identity after restart. Installation replaces the current instrument;
+   cartridge writes can reuse flash previously used by other apps. Keep power
+   and USB connected, and begin with MASTER low. Logs are in
+   `build/device-install.log` and `build/device-identity.txt`.
 
 ## Record these results
 
