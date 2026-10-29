@@ -74,7 +74,10 @@ initial test sequence and current limits.
 | SEL / SAVE | Up / Down |
 | HOME / ARP | Left / Right |
 | GLO / REC | Game Gear button 1 / button 2, including held chords |
-| Music keys 0 / 1 / 2 / 4 | D-pad Left / Up / Down / Right on all screens |
+| Music key 0 | D-pad Left on all screens |
+| Music keys 1 and 3 | D-pad Up on all screens |
+| Music key 2 | D-pad Down on all screens |
+| Music key 4 | D-pad Right on all screens |
 | Other music keys | On PHRASE, enter a note and advance a row |
 | PLAY | On PHRASE, advance without changing the step |
 | EDIT | On PHRASE, go back without changing the step |
@@ -86,9 +89,9 @@ LFO clears note, instrument and both effect bytes to the ROM's empty-row
 values, without shifting other rows. It acts once per press and keeps the
 cursor on the current row. It does not cut off an already sounding voice.
 
-Key numbers start at zero at the left end of the keyboard. Keys 0, 1, 2 and
-4 are reserved for navigation and never enter notes; key **3** remains playable
-at its original pitch. The reserved keys support held repeat and chords with
+Key numbers start at zero at the left end of the keyboard. Keys 0–4 are
+reserved for navigation and never enter notes; keys **1 and 3 both act as Up**.
+The reserved keys support held repeat and chords with
 GLO/REC, alongside the existing SEL/SAVE/HOME/ARP navigation buttons.
 
 The PHRASE cursor wraps 15→0 and 0→15. Press edges enter notes; holding or

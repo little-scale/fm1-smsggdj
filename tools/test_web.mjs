@@ -36,8 +36,13 @@ const key=k=>{m.ex.web_keys(1<<k);m.run(4410);m.ex.web_keys(0);m.run(4410);};
 key(2);check(((m.ex.gg_web_status()>>8)&255)===1,"reserved key 2 navigates down");
 key(1);check(((m.ex.gg_web_status()>>8)&255)===0,"reserved key 1 navigates up");
 key(4);key(0);check(m.ex.gg_web_first_note()===0,"reserved direction keys do not enter notes");
-key(3);check(m.ex.gg_web_first_note()===12&&((m.ex.gg_web_status()>>8)&255)===1,"key 3 remains a musical key");
-m.tap(edit);m.tap(lfo);
+key(3);check(m.ex.gg_web_first_note()===0&&((m.ex.gg_web_status()>>8)&255)===15,"reserved key 3 also navigates up without entering a note");
+key(2);
+m.ex.web_keys((1<<1)|(1<<3));m.run(4410);
+check(((m.ex.gg_web_status()>>8)&255)===15,"both Up aliases together produce one direction press");
+m.ex.web_keys(1<<3);m.run(4410);
+check(((m.ex.gg_web_status()>>8)&255)===15,"releasing one Up alias keeps the other held without a new edge");
+m.ex.web_keys(0);m.run(4410);key(2);m.tap(lfo);
 m.ex.web_keys(1<<2);
 let repeated=false;
 for(let k=0;k<10;k++){m.run(4410);if(((m.ex.gg_web_status()>>8)&255)>1)repeated=true;}

@@ -60,12 +60,12 @@ static void controls(void)
 {
     uint32_t buttons = plat_buttons(), keys = plat_keys();
     uint32_t edges = buttons & ~buttons_before, notes = keys & ~keys_before;
-    const uint32_t navigation_keys = (1u << 0) | (1u << 1) | (1u << 2) | (1u << 4);
+    const uint32_t navigation_keys = (1u << 0) | (1u << 1) | (1u << 2) | (1u << 3) | (1u << 4);
     uint8_t pad = 0;
     unsigned k;
     buttons_before = buttons; keys_before = keys;
     if(gg_manager_busy()) { gg_set_pad(0);return; }
-    if ((buttons & (1u << B_SEL)) || (keys & (1u << 1))) pad |= 1;
+    if ((buttons & (1u << B_SEL)) || (keys & ((1u << 1) | (1u << 3)))) pad |= 1;
     if ((buttons & (1u << B_SAVE)) || (keys & (1u << 2))) pad |= 2;
     if ((buttons & (1u << B_HOME)) || (keys & (1u << 0))) pad |= 4;
     if ((buttons & (1u << B_ARP)) || (keys & (1u << 4))) pad |= 8;

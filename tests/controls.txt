@@ -21,6 +21,10 @@ tapkey 2
 expect row 1
 tapkey 1
 expect row 0
+tapkey 2
+expect row 1
+tapkey 3
+expect row 0
 tapkey 4
 expect column 1
 tapkey 0

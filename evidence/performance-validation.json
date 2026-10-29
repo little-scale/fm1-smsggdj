@@ -6,9 +6,9 @@
   "ubsan": true,
   "wasm": {
     "success": true,
-    "checks": 21,
-    "peak": 0.17209124565124512,
-    "wasm_bytes": 232988,
+    "checks": 23,
+    "peak": 0.16473698616027832,
+    "wasm_bytes": 232991,
     "hardware_timing_verified": false
   },
   "manager": {
@@ -69,6 +69,6 @@
     "1": "up",
     "2": "down",
     "4": "right",
-    "3": "original musical pitch"
+    "3": "up"
   }
 }
