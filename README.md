@@ -63,8 +63,8 @@ hardware timing.
 
 The prospective device package is `build/ggdj-fm1.fwsc`, identity `FM-1_9500`.
 Build status is written to `build/{host,web,device}-status.json`. Upstream
-image-size, RAM and instruction checks remain enabled. No firmware was flashed
-while developing this project. See [HARDWARE_TEST.md](HARDWARE_TEST.md) for the
+image-size, RAM and instruction checks remain enabled. See
+[HARDWARE_TEST.md](HARDWARE_TEST.md) for the
 initial test sequence and current limits.
 
 ## Controls
@@ -74,7 +74,8 @@ initial test sequence and current limits.
 | SEL / SAVE | Up / Down |
 | HOME / ARP | Left / Right |
 | GLO / REC | Game Gear button 1 / button 2, including held chords |
-| Keyboard | On PHRASE, enter a note and advance a row |
+| Music keys 0 / 1 / 2 / 4 | D-pad Left / Up / Right / Down on all screens |
+| Other music keys | On PHRASE, enter a note and advance a row |
 | PLAY | On PHRASE, advance without changing the step |
 | EDIT | On PHRASE, go back without changing the step |
 | LFO | On PHRASE, clear the complete current step; keep the cursor on that row |
@@ -85,13 +86,18 @@ LFO clears note, instrument and both effect bytes to the ROM's empty-row
 values, without shifting other rows. It acts once per press and keeps the
 cursor on the current row. It does not cut off an already sounding voice.
 
+Key numbers start at zero at the left end of the keyboard. Keys 0, 1, 2 and
+4 are reserved for navigation and never enter notes; key **3** remains playable
+at its original pitch. The reserved keys support held repeat and chords with
+GLO/REC, alongside the existing SEL/SAVE/HOME/ARP navigation buttons.
+
 The PHRASE cursor wraps 15→0 and 0→15. Press edges enter notes; holding or
 releasing a key does not enter or erase another note. An existing valid
 instrument/effect is kept, an empty cell receives the last instrument, and
 the ROM performs its normal audition. Simultaneous keys enter successive rows
 in physical key order. The default ROM accepts MIDI notes 45–155.
 
-Keyboard/PLAY/EDIT actions are consumed without editing on other screens,
+Note-entry/PLAY/EDIT/LFO actions are consumed without editing on other screens,
 during block selection, or while a navigation control is held. Remaining
 unmapped buttons and knobs currently have no function.
 

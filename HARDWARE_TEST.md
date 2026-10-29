@@ -42,6 +42,7 @@ CPU load is smoothed, so zero new overruns is more useful than one low reading.
 | --- | --- |
 | Boot, display and MASTER | Tracker reaches SONG; stable picture and output level |
 | Navigation | SEL/SAVE up/down, HOME/ARP left/right; GLO/REC act as GG buttons 1/2 |
+| Keyboard D-pad | Keys 0/1/2/4 = left/up/right/down, including held repeat and REC chords; key 3 still plays notes |
 | Create a phrase | GLO on SONG; REC+ARP; GLO on CHAIN; REC+ARP |
 | Keyboard | One note and one-row advance per press; hold/release adds no extra note |
 | PLAY / EDIT on PHRASE | Forward/back one step, unchanged note; wrap at 16 |

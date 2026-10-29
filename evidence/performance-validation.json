@@ -6,9 +6,9 @@
   "ubsan": true,
   "wasm": {
     "success": true,
-    "checks": 15,
-    "peak": 0.18026995658874512,
-    "wasm_bytes": 232939,
+    "checks": 21,
+    "peak": 0.17209124565124512,
+    "wasm_bytes": 232988,
     "hardware_timing_verified": false
   },
   "manager": {
@@ -63,5 +63,12 @@
     "8x16 sprite second tile"
   ],
   "reproducible_core_import": true,
-  "lfo_clear_keeps_cursor": true
+  "lfo_clear_keeps_cursor": true,
+  "reserved_keyboard_dpad": {
+    "0": "left",
+    "1": "up",
+    "2": "right",
+    "4": "down",
+    "3": "original musical pitch"
+  }
 }

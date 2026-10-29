@@ -12,11 +12,21 @@ wait 100
 expect screen 1
 tap GLO
 press REC
-tap ARP
+tapkey 2
 release REC
 wait 100
 expect screen 2
 shot phrase-empty.png
+tapkey 4
+expect row 1
+tapkey 1
+expect row 0
+tapkey 2
+expect column 1
+tapkey 0
+expect column 0
+expect row 0
+expect note0 0
 tapkey 7
 expect row 1
 shot note-c4.png

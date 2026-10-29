@@ -60,14 +60,15 @@ static void controls(void)
 {
     uint32_t buttons = plat_buttons(), keys = plat_keys();
     uint32_t edges = buttons & ~buttons_before, notes = keys & ~keys_before;
+    const uint32_t navigation_keys = (1u << 0) | (1u << 1) | (1u << 2) | (1u << 4);
     uint8_t pad = 0;
     unsigned k;
     buttons_before = buttons; keys_before = keys;
     if(gg_manager_busy()) { gg_set_pad(0);return; }
-    if (buttons & (1u << B_SEL)) pad |= 1;
-    if (buttons & (1u << B_SAVE)) pad |= 2;
-    if (buttons & (1u << B_HOME)) pad |= 4;
-    if (buttons & (1u << B_ARP)) pad |= 8;
+    if ((buttons & (1u << B_SEL)) || (keys & (1u << 1))) pad |= 1;
+    if ((buttons & (1u << B_SAVE)) || (keys & (1u << 4))) pad |= 2;
+    if ((buttons & (1u << B_HOME)) || (keys & (1u << 0))) pad |= 4;
+    if ((buttons & (1u << B_ARP)) || (keys & (1u << 2))) pad |= 8;
     if (buttons & (1u << B_GLO)) pad |= 16;
     if (buttons & (1u << B_REC)) pad |= 32;
     gg_set_pad(pad);
@@ -76,6 +77,7 @@ static void controls(void)
     if (edges & (1u << B_PLAY)) gg_enqueue(GG_FORWARD, 0);
     if (edges & (1u << B_EDIT)) gg_enqueue(GG_BACK, 0);
     if (edges & (1u << B_LFO)) gg_enqueue(GG_CLEAR, 0);
+    notes &= ~navigation_keys;
     for (k = 0; k < NKEYS; ++k) if (notes & (1u << k)) {
         int note = 53 + (int)k + octave * 12;
         if (!gg_enqueue(GG_NOTE, (unsigned)note)) app_say("NOTE NOT ENTERED", "RANGE OR QUEUE");
@@ -176,6 +178,7 @@ int app_expect(const char *what, int *got)
 {
     if (gg_equal(what, "screen")) *got = gg_screen();
     else if (gg_equal(what, "row")) *got = gg_row();
+    else if (gg_equal(what, "column")) *got = gg_ram() ? gg_ram()[gg_current_profile()->address[GG_A_PHR_COL] & 8191u] : -1;
     else if (gg_equal(what, "playing")) *got = gg_playing();
     else if (gg_equal(what, "fault")) *got = gg_faulted();
     else if (gg_equal(what, "dropped")) *got = (int)gg_dropped();

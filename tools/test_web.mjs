@@ -30,8 +30,23 @@ check((m.ex.gg_web_status()&255)===0,"SONG after boot");
 const glo=1<<5,rec=1<<11,arp=1<<8,play=1<<10,edit=1<<4,lfo=1<<3;
 m.tap(glo);m.buttons(rec);m.buttons(rec|arp);m.buttons(rec);m.buttons(0);
 check((m.ex.gg_web_status()&255)===1,"CHAIN navigation");
-m.tap(glo);m.buttons(rec);m.buttons(rec|arp);m.buttons(rec);m.buttons(0);
+m.tap(glo);m.buttons(rec);m.ex.web_keys(1<<2);m.run(4410);m.ex.web_keys(0);m.run(4410);m.buttons(0);
 check((m.ex.gg_web_status()&255)===2,"PHRASE navigation");
+const key=k=>{m.ex.web_keys(1<<k);m.run(4410);m.ex.web_keys(0);m.run(4410);};
+key(4);check(((m.ex.gg_web_status()>>8)&255)===1,"reserved key 4 navigates down");
+key(1);check(((m.ex.gg_web_status()>>8)&255)===0,"reserved key 1 navigates up");
+key(2);key(0);check(m.ex.gg_web_first_note()===0,"reserved direction keys do not enter notes");
+key(3);check(m.ex.gg_web_first_note()===12&&((m.ex.gg_web_status()>>8)&255)===1,"key 3 remains a musical key");
+m.tap(edit);m.tap(lfo);
+m.ex.web_keys(1<<4);
+let repeated=false;
+for(let k=0;k<10;k++){m.run(4410);if(((m.ex.gg_web_status()>>8)&255)>1)repeated=true;}
+m.ex.web_keys(0);m.run(4410);
+check(repeated,"holding a reserved direction key repeats navigation");
+// Return to row zero using the original up button, preserving the normal
+// controller path alongside keyboard navigation.
+for(let k=0;k<16&&((m.ex.gg_web_status()>>8)&255)!==0;k++)m.tap(1<<1);
+check(((m.ex.gg_web_status()>>8)&255)===0,"physical up still navigates");
 m.ex.web_keys(1<<7);m.run(4410);m.ex.web_keys(0);m.run(4410);
 check(((m.ex.gg_web_status()>>8)&255)===1,"key enters and advances");
 m.tap(play);check(((m.ex.gg_web_status()>>8)&255)===2,"skip forward");
