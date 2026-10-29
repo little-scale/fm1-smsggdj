@@ -40,11 +40,11 @@
     "COPYING": "91df39d1816bfb17a4dda2d3d2c83b1f6f2d38d53e53e41e8f97ad5ac46a0cad",
     "CREDITS": "ed00a00872d52fd7add74c2c7c938d0e26b4b93c5ef26996fa40d013033ad43c",
     "PORTING": "db78ac15e495474e7bc959c21eee7c8f275e08c494dde9c66620b234664ae4bf",
-    "shared.h": "4f16aa8a418be6613404d5927d05fb29f43b89fc657e5a286178cfa63ffedbef",
+    "shared.h": "d629198f5102c886cb6ee895da68117f7ad6a2afed8dd6075bca7f7154eff7fd",
     "hvc.h": "336abd7e46ff944e7afaaa186d6ffd89d7875ee571f85e881a1994964a60ff30",
     "memz80.c": "0a6bda32ca40833d1b5141f896e1e3b524d478ef6518bd84e30da6c12c305a8c",
     "memz80.h": "6358b123aa059baebe62ce1b127cb99041d6a96c204cffcf6823c1fae489d034",
-    "pio.c": "e64f79e937e05fb11479bd42a9ea527a5e84cc022171fe2d247afe0c879dbae0",
+    "pio.c": "25a38d283cef9fedf0b2a34efb0d23b0925ede2bfff835d34bae680486c2bf6d",
     "pio.h": "12121f8e125bff743dc6fc593bbdee1156e1d85d764710a1a179cb3241847716",
     "render.c": "48076fc91ec31802282b79e3ddfef61594f29322e38d82a57b44097ceeb5895c",
     "render.h": "d0000379bb37df9c82aa1a106d08828a9c432f8edeeccf458fb33915ed73363c",
@@ -71,5 +71,6 @@
     "sound/fmintf.h": "2f44f8c467cd2e9516baead6722eb330533d11c2572eef9f75edd8b163f24200"
   },
   "rom_modified": false,
-  "fm1_manager_revision": "Runtime ROM profile PCs replace compile-time hook PCs."
+  "fm1_manager_revision": "Runtime ROM profile PCs replace compile-time hook PCs.",
+  "freestanding_headers": "Device uses platform memory routines via compat.h; hosted stdio/stdlib/math/assert headers are host-only."
 }

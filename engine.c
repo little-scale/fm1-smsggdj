@@ -4,7 +4,7 @@
  */
 #include <stdint.h>
 #include <stddef.h>
-#include <string.h>
+#include "compat.h"
 #include "plat.h"
 #include "gg.h"
 #include "save.h"

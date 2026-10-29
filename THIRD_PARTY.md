@@ -34,6 +34,9 @@ port, based on [Retro-Go](https://github.com/ducalex/retro-go) revision
 
 FM1 changes replace large arithmetic/render lookup tables, add incremental
 scanline stepping and RAM-adapter instruction callbacks with runtime ROM
-profiles, and use bounded 32-bit audio-clock arithmetic. These modifications
-do not remove the original files' license obligations. `tools/import_core.py`
+profiles, and use bounded 32-bit audio-clock arithmetic. Hosted C-library
+headers are limited to host/WASM builds; the device uses the
+platform's freestanding memory routines and the existing emulator allocator.
+These modifications do not remove the original files' license obligations.
+`tools/import_core.py`
 reproduces the import from the earlier Waveshare core directory.

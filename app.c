@@ -2,7 +2,7 @@
 #include "gg.h"
 #include "save.h"
 #include "manager.h"
-#include <string.h>
+#include "compat.h"
 
 static uint32_t keys_before, buttons_before, last_draw, last_poll;
 static uint32_t seen_crc, saved_crc, changed_at;

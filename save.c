@@ -4,7 +4,7 @@
  * No writes to an active bank. Header/data failure leaves the older bank valid.
  */
 #include <stdint.h>
-#include <string.h>
+#include "compat.h"
 #include "plat.h"
 #include "gg.h"
 #include "save.h"

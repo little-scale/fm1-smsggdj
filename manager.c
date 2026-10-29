@@ -3,7 +3,7 @@
  * no unbounded writes, and no firmware/bootloader-sector access.
  */
 #include <stdint.h>
-#include <string.h>
+#include "compat.h"
 #include "plat.h"
 #include "gg.h"
 #include "save.h"

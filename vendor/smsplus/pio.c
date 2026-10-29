@@ -22,8 +22,8 @@
  *
  ******************************************************************************/
 
+/* FM1: omit the unused hosted math header for freestanding builds. */
 #include "shared.h"
-#include <math.h>
 
 typedef struct {
   uint8 tr_level[2];  /* TR pin output level */

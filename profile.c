@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: MIT */
-#include <string.h>
+#include "compat.h"
 #include "profile.h"
 #include "save.h"
 #include "default_profile.h"

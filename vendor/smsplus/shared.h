@@ -11,13 +11,16 @@ typedef int8_t int8;
 typedef int16_t int16;
 typedef int32_t int32;
 
+/* FM1: freestanding device routines; hosted headers only for host/WASM. */
+#include "compat.h"
+#ifdef PLAT_HOST
 #include <assert.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <math.h>
+#endif
 #include <stdarg.h>
 #include <limits.h>
-#include <math.h>
 
 #ifdef RETRO_GO
 #include <rg_system.h>

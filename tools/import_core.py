@@ -30,6 +30,27 @@ for name in files:
 p = dest / 'shared.h'
 s = p.read_text().replace('#define LOG_PRINTF(level, x...) printf(x)', '#define LOG_PRINTF(level, x...) ((void)0)')
 s = s.replace('#include "cpu/z80.h"', '#include "memory.h"\n#include "cpu/z80.h"')
+s = s.replace('''#include <assert.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <limits.h>
+#include <math.h>''', '''/* FM1: freestanding device routines; hosted headers only for host/WASM. */
+#include "compat.h"
+#ifdef PLAT_HOST
+#include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#endif
+#include <stdarg.h>
+#include <limits.h>''')
+p.write_text(s)
+
+p = dest / 'pio.c'
+s = p.read_text().replace('#include <math.h>\n', '')
+s = s.replace('#include "shared.h"', '/* FM1: omit the unused hosted math header for freestanding builds. */\n#include "shared.h"')
 p.write_text(s)
 
 # 256 KiB arithmetic tables become their original generating equations.
