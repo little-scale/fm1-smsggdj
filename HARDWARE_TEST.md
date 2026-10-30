@@ -10,9 +10,13 @@ Package identity: `FM-1_9500`; SHA-256:
 
 The current source adds cycle-equivalent HALT batching, a 48 KiB tile-row
 cache, changed-band LCD drawing and LFO row clearing. Host, UBSan, WASM,
-audio/video reference and cache/IRQ tests pass. Its device build and audio
-improvement remain to be tested. New image/RAM figures must come from that
-build; the first-build figures above are retained as a baseline.
+audio/video reference and cache/IRQ tests pass. The user has now confirmed
+successful installation through the hosted browser tools and reconnection to
+SMSGGDJ v0.48. They report that playback is "sounding great" and confirm that
+LFO clears the current phrase row without advancing the cursor. These are
+listening and functional confirmations; CPU/overrun measurements, SRAM/song
+transfers and ROM swapping remain unverified on hardware. New image/RAM figures
+must come from the updated build; the figures above are the first-build baseline.
 
 After installing the update, start the same problematic song and run
 `./Measure-GGDJ.command`. This reads counters for ten seconds and saves

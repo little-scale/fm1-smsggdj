@@ -31,7 +31,13 @@
   },
   "download_bytes": 42136,
   "site_contains_firmware_or_rom": false,
-  "physical_browser_installation_verified": false,
+  "physical_browser_installation_verified": true,
+  "physical_browser_installation_evidence": {
+    "source": "User confirmed installation and supplied connected-manager screenshot",
+    "previous_firmware": "FM-1_9400 (RNBO Player)",
+    "connected_profile": "SMSGGDJ v0.48",
+    "reconnection_verified": true
+  },
   "physical_browser_cartridge_transfers_verified": false,
   "visual_review": "Real Chrome desktop/mobile startup and screenshots passed in GitHub Actions; screenshots inspected.",
   "ci_run": "https://github.com/little-scale/fm1-smsggdj/actions/runs/41094282339",

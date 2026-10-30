@@ -1,5 +1,11 @@
 {
-  "hardware_audio_retest_pending": true,
+  "hardware_audio_retest_pending": false,
+  "hardware_user_confirmation": {
+    "source": "User report after hosted browser installation",
+    "playback": "playback is sounding great",
+    "lfo_clear_without_cursor_advance": true,
+    "hardware_timing_measured": false
+  },
   "default_rom_unchanged": true,
   "audio_rate_hz": 44100,
   "native_host_panel": true,

@@ -5,9 +5,11 @@ a Game Gear emulator that boots the tracker, maps the FM1 keyboard to step
 entry through emulated RAM, and includes a browser cartridge manager.
 
 **Development prototype.** Host, actual WebAssembly tests and the JieLi device
-build pass. The first build boots and runs on a physical FM1, but its audio
-stutters. The performance update below awaits a hardware retest; no validated
-binary is published. This port reuses the SMS Plus core from the earlier
+build pass. On a physical FM1, the user has confirmed successful browser
+installation, good playback after the performance update, and LFO clearing
+without moving the phrase cursor. Hardware CPU/overrun measurements and browser
+cartridge transfers still need verification; no firmware binary is published.
+This port reuses the SMS Plus core from the earlier
 working ESP32-S3 setup. The default ROM is the unchanged SMSGGDJ **v0.48** Game
 Gear release, pinned with its symbol map and hash in `rom/manifest.json`.
 
@@ -194,7 +196,8 @@ profiles supply validated hooks and RAM addresses.
 A 120 KiB arena replaces the desktop heap; the tested core uses **107,914
 bytes**. Compact arithmetic and rendering replace about 575 KiB of lookup
 tables. The first device build is 252,492 bytes with 29,176/98,304 bytes static
-RAM and 269,520/344,064 bytes pool RAM; realtime performance awaits hardware tests.
+RAM and 269,520/344,064 bytes pool RAM. The user reports good playback after
+the performance update; measured hardware timing remains unverified.
 
 The performance update batches halted Z80 cycles while preserving refresh and
 interrupt boundaries, caches decoded tile rows in 48 KiB with live VRAM-byte
