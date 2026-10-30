@@ -33,5 +33,14 @@
   "site_contains_firmware_or_rom": false,
   "physical_browser_installation_verified": false,
   "physical_browser_cartridge_transfers_verified": false,
-  "visual_review": "Local headless Chrome is blocked by this session; real Chrome checks run in CI before deployment."
+  "visual_review": "Real Chrome desktop/mobile startup and screenshots passed in GitHub Actions; screenshots inspected.",
+  "ci_run": "https://github.com/little-scale/fm1-smsggdj/actions/runs/41094282339",
+  "ci_source_commit": "712642f3f7651f3a28bc016bb4ff8d1d9ac29c12",
+  "site": "https://little-scale.github.io/fm1-smsggdj/",
+  "live_https_checked": [
+    "index.html",
+    "ui.mjs (JavaScript MIME)",
+    "release.json (no firmware download)",
+    "FM1-SMSGGDJ-Manager.zip (no firmware, ROM or WASM)"
+  ]
 }
