@@ -25,6 +25,7 @@ function refreshButtons(){
 async function task(fn){if(busy)return;busy=true;$("progress").hidden=false;$("progress").value=0;$("cancel").hidden=!client||writingFirmware;refreshButtons();try{await fn();}catch(e){message(e.message||String(e),true);}finally{busy=false;$("progress").hidden=true;$("cancel").hidden=true;refreshButtons();}}
 function progress(v){$("progress").value=v;}
 function change(songs){doc=editSongs(doc,songs);render();}
+function chooseSong(slot=null){replaceSlot=slot;$("song-file").value="";$("song-file").click();}
 function render(){
   $("document-status").textContent=`${label} · ${doc.songs.length}/32 songs${doc.dirty?" · unsent edits":""}`;
   $("songs").hidden=!doc.songs.length;$("empty").hidden=!!doc.songs.length;
@@ -33,9 +34,10 @@ function render(){
     const tr=document.createElement("tr"),slot=document.createElement("td"),name=document.createElement("td"),size=document.createElement("td"),actions=document.createElement("td");slot.textContent=i.toString(16).toUpperCase().padStart(2,"0");
     const input=document.createElement("input");input.maxLength=8;input.value=songName(s);input.setAttribute("aria-label",`Name for song ${i}`);input.onchange=()=>task(async()=>change(doc.songs.map((x,k)=>k===i?{...x,name:nameBytes(input.value)}:x)));name.append(input);
     size.textContent=`${s.stored} B`;actions.className="actions";
-    const button=(text,fn)=>{const b=document.createElement("button");b.textContent=text;b.onclick=()=>task(fn);actions.append(b);return b;};
+    // Open file pickers synchronously: task() disables inputs during work.
+    const button=(text,fn,{picker=false}={})=>{const b=document.createElement("button");b.textContent=text;b.onclick=picker?fn:()=>task(fn);actions.append(b);return b;};
     button("Export",async()=>download(exportSong(s),songName(s)+".smdj4"));
-    button("Replace",async()=>{replaceSlot=i;$("song-file").click();});
+    button("Replace",()=>chooseSong(i),{picker:true});
     button("↑",async()=>{if(i){const a=doc.songs.slice();[a[i-1],a[i]]=[a[i],a[i-1]];change(a);}}).setAttribute("aria-label",`Move song ${i} up`);
     button("↓",async()=>{if(i+1<doc.songs.length){const a=doc.songs.slice();[a[i+1],a[i]]=[a[i],a[i+1]];change(a);}}).setAttribute("aria-label",`Move song ${i} down`);
     button("Delete",async()=>{if(confirm(`Remove ${songName(s)} from the browser cartridge? The device is unchanged until you send SRAM.`))change(doc.songs.filter((_,k)=>k!==i));});
@@ -184,8 +186,8 @@ $("open-sram").onclick=()=>$("sram-file").click();
 $("sram-file").onchange=()=>task(async()=>{const file=$("sram-file").files[0];if(!file)return;if(file.size>32768)throw new Error("SRAM is at most 32 KiB.");const next=readSRAM(new Uint8Array(await file.arrayBuffer()));if(doc.dirty&&!confirm("Replace the browser cartridge and its unsent edits?"))return;doc=next;label=file.name;baseCRC=null;render();message("SRAM opened. The device has not changed.");$("sram-file").value="";});
 $("download-sram").onclick=()=>download(doc.bytes,"smsggdj.sav");
 $("new-sram").onclick=()=>{if(doc.songs.length&&!confirm("Start an empty browser cartridge? The device is unchanged."))return;doc=emptySRAM();label="New cartridge";baseCRC=null;render();};
-$("import-song").onclick=()=>{replaceSlot=null;$("song-file").click();};
-$("song-file").onchange=()=>task(async()=>{const file=$("song-file").files[0];if(!file)return;if(file.size>6928)throw new Error("That file is too large for one song.");const song=importSong(new Uint8Array(await file.arrayBuffer()),file.name),a=doc.songs.slice();if(replaceSlot===null)a.push(song);else a[replaceSlot]=song;change(a);$("song-file").value="";replaceSlot=null;message("Song added to the browser cartridge. Download SRAM or send it to the device when ready.");});
+$("import-song").onclick=()=>chooseSong();
+$("song-file").onchange=()=>task(async()=>{const file=$("song-file").files[0];if(!file)return;if(file.size>6928)throw new Error("That file is too large for one song.");const song=importSong(new Uint8Array(await file.arrayBuffer()),file.name),a=doc.songs.slice(),replacing=replaceSlot!==null;if(replacing)a[replaceSlot]=song;else a.push(song);change(a);$("song-file").value="";replaceSlot=null;message(`Song ${replacing?"replaced in":"added to"} the browser cartridge. Download SRAM or send it to the device when ready.`);});
 $("read-device").onclick=()=>task(async()=>{if(doc.dirty&&!confirm("Replace the browser cartridge and its unsent edits with device SRAM?"))return;const bytes=await client.read();doc=readSRAM(bytes);baseCRC=crc32(bytes);label="Device SRAM";render();await showInfo();message("SRAM read and checksum verified.");});
 $("send-device").onclick=()=>task(async()=>{
   const info=await client.info(),expected=baseCRC??info.sramCRC;

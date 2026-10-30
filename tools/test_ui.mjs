@@ -9,12 +9,12 @@ import {spawnSync} from 'node:child_process';
 import {webcrypto} from 'node:crypto';
 import {Updater,pack7} from '../web/manager/vendor/fm1ota.mjs';
 import {frame,unframe} from '../web/manager/transport.mjs';
-import {emptySRAM,encodeProfile,put32,crc32,u32,u16} from '../web/manager/format.mjs';
+import {emptySRAM,readSRAM,exportSong,nameBytes,encodeProfile,put32,crc32,u32,u16} from '../web/manager/format.mjs';
 if(!globalThis.crypto)globalThis.crypto=webcrypto;
 const APP=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const html=fs.readFileSync(path.join(APP,'web/manager/index.html'),'utf8');
 let checks=0;const check=(v,label)=>{assert(v,label);checks++;};
-const nodes=new Map(),all=[],downloads=[],blobs=new Map();
+const nodes=new Map(),all=[],downloads=[],blobs=new Map(),filePickers=[];
 class Element{
   constructor(tag,attrs={}){this.tag=tag;this.attrs=attrs;this.id=attrs.id||'';this.value='';this.children=[];this.textContent='';this.hidden='hidden' in attrs;this.disabled='disabled' in attrs;this.checked='checked' in attrs;this.open='open' in attrs;this.files=[];this.classList={toggle(){}};all.push(this);}
   hasAttribute(name){return name in this.attrs;}
@@ -22,7 +22,7 @@ class Element{
   append(...children){this.children.push(...children);if(this.tag==='select'&&!this.value&&children[0])this.value=children[0].value;}
   replaceChildren(...children){this.children=[];if(this.tag==='select')this.value='';this.append(...children);}
   querySelector(selector){if(selector==='tbody')return this.body??=new Element('tbody');throw new Error(selector);}
-  click(){if(this.download)downloads.push({name:this.download,blob:blobs.get(this.href)});else this.onclick?.();}
+  click(){if(this.disabled)return;if(this.attrs.type==='file')filePickers.push(this.id);else if(this.download)downloads.push({name:this.download,blob:blobs.get(this.href)});else this.onclick?.();}
 }
 for(const match of html.matchAll(/<([a-z][a-z0-9]*)\b([^>]*\bid="([^"]+)"[^>]*)>/g)){
   const attrs={id:match[3]};for(const attr of match[2].matchAll(/([\w-]+)(?:="([^"]*)")?/g))attrs[attr[1]]=attr[2]??'';
@@ -100,5 +100,34 @@ try{
   const writes=sent.filter(p=>p[0]===0xf0&&p[1]===0x22);
   check(writes.length===0,'tests never sent a real update-entry command');
 }finally{Updater.prototype.install=originalInstall;}
+// File inputs ignore click() while disabled, just as they do in the browser.
+const songFile=(name,note)=>{
+  const block=new Uint8Array(6912);block[256]=note;
+  const bytes=exportSong({block,name:nameBytes(name),echo:new Uint8Array(8)});
+  return {name:name+'.smdj4',size:bytes.length,arrayBuffer:async()=>bytes.slice().buffer};
+};
+const pickSong=async file=>{$('song-file').files=[file];await $('song-file').onchange();};
+const rowButton=(slot,text)=>$('songs').querySelector('tbody').children[slot].children[3].children.find(b=>b.textContent===text);
+const browserCartridge=async()=>{await $('download-sram').onclick();return readSRAM(new Uint8Array(await downloads.at(-1).blob.arrayBuffer()));};
+await $('import-song').onclick();await pickSong(songFile('FIRST',16));
+await $('import-song').onclick();await pickSong(songFile('SECOND',17));
+const beforeReplace=filePickers.length;
+await rowButton(0,'Replace').onclick();
+check(filePickers.length===beforeReplace+1&&filePickers.at(-1)==='song-file','Replace opens an enabled song file picker');
+await pickSong(songFile('REPLACED',42));
+let cartridge=await browserCartridge();
+check(cartridge.songs.length===2&&cartridge.songs[0].block[256]===42&&cartridge.songs[1].block[256]===17,'Replace updates only the selected song without appending');
+check($('message').textContent.includes('replaced'),'replacement reports its action');
+await rowButton(1,'Replace').onclick();
+await pickSong({name:'BAD.smdj4',size:3,arrayBuffer:async()=>new Uint8Array(3).buffer});
+cartridge=await browserCartridge();
+check(cartridge.songs[1].block[256]===17,'invalid replacement leaves the existing song intact');
+$('song-file').value='C:\\fakepath\\REPLACED.smdj4';await rowButton(1,'Replace').onclick();
+check($('song-file').value==='','opening the picker permits selecting the same file again after an error');
+await pickSong(songFile('REPLACED',42));cartridge=await browserCartridge();
+check(cartridge.songs[0].block[256]===42&&cartridge.songs[1].block[256]===42,'retry replaces the intended slot');
+await rowButton(0,'Replace').onclick();$('song-file').files=[];await $('song-file').onchange();
+await $('import-song').onclick();await pickSong(songFile('THIRD',19));cartridge=await browserCartridge();
+check(cartridge.songs.length===3&&cartridge.songs[0].block[256]===42&&cartridge.songs[2].block[256]===19,'Import appends after a cancelled replacement');
 const out=path.join(APP,'build/browser-validation');fs.mkdirSync(out,{recursive:true});fs.writeFileSync(path.join(out,'ui-result.json'),JSON.stringify({success:true,checks,simulated_dom_and_midi:true,visual_browser_verified:false,hardware_usb_verified:false},null,2)+'\n');
-console.log(`PASS page flows: ${checks} checks; connect, identify, validate, confirm, install, reconnect, backup, diagnostics and unplug`);
+console.log(`PASS page flows: ${checks} checks; firmware, backup, diagnostics, unplug, song import and replacement`);
