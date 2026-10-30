@@ -1,0 +1,46 @@
+{
+  "version": "0.1.0",
+  "release_url": "https://github.com/little-scale/fm1-smsggdj/releases/tag/v0.1.0",
+  "source_commit": "5929894fb41b02044bd467651f856971738d6b5f",
+  "firmware": {
+    "product": "FM-1_9500",
+    "sha256": "240b88be9ba051440854016dc925f1c9e4d4967fe55d4163d23491e665e794e6",
+    "bytes": 610136,
+    "rebuilt": false
+  },
+  "source_archive": {
+    "tracked_files_verified_against_git_blobs": 294,
+    "recursive_submodules": 2,
+    "extracted_source_host_build_and_panel_scenario": "passed"
+  },
+  "downloads_verified_after_github_upload": true,
+  "mac_archive_includes_verified_firmware_rom_source_and_notices": true,
+  "local_checks": {
+    "browser_onboarding": 102,
+    "page_flows": 33,
+    "formats": 205,
+    "packaging": 8
+  },
+  "release_files": {
+    "fm1-smsggdj-0.1.0.fwsc": {
+      "sha256": "240b88be9ba051440854016dc925f1c9e4d4967fe55d4163d23491e665e794e6",
+      "bytes": 610136
+    },
+    "smsggdj-v0.48.gg": {
+      "sha256": "f4c8f53eda77f4c2c89a96c48db6f460d167e4c1c2218db52924db36ffd8f71e",
+      "bytes": 131072
+    },
+    "fm1-smsggdj-0.1.0-source.tar.gz": {
+      "sha256": "f9fd25ca50558d327494306341833a96097835ece2730e61327066111e25a454",
+      "bytes": 964254
+    },
+    "fm1-smsggdj-0.1.0-notices.zip": {
+      "sha256": "6bd6bc34deb895f16afa61d801a2a095c17557be68cdc114294086823d71cf25",
+      "bytes": 40331
+    },
+    "SHA256SUMS.txt": {
+      "sha256": "26751f333fbf7ad9ec0f3e6d2ede72e4486b0753b7afc9d7b3687d0eacd2f521",
+      "bytes": 366
+    }
+  }
+}
