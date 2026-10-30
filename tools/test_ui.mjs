@@ -35,7 +35,17 @@ globalThis.location={href:'http://127.0.0.1:8765/manager/',origin:'http://127.0.
 URL.createObjectURL=blob=>{const id='blob:test-'+blobs.size;blobs.set(id,blob);return id;};URL.revokeObjectURL=()=>{};
 let answerConfirmation=false;
 globalThis.confirm=()=>answerConfirmation;
-globalThis.fetch=async url=>({ok:true,json:async()=>JSON.parse(fs.readFileSync(path.join(APP,'web/manager',url),'utf8'))});
+function fixture(mode='valid'){
+  const result=spawnSync(process.env.PYTHON||'python3',[path.join(APP,'tools/browser_fixture.py'),mode],{maxBuffer:4*1024*1024});assert.equal(result.status,0,result.stderr.toString());return Uint8Array.from(result.stdout);
+}
+const published=fixture('development');let servedRelease=published;
+const publishedSHA=Buffer.from(await crypto.subtle.digest('SHA-256',published)).toString('hex');
+const release={schema:1,available:true,version:'0.1.0',product:'FM-1_9500',sha256:publishedSHA,package:'releases/v0.1.0/fm1-smsggdj-0.1.0.fwsc',rom:'releases/v0.1.0/smsggdj-v0.48.gg',source:'releases/v0.1.0/fm1-smsggdj-0.1.0-source.tar.gz',notices:'releases/v0.1.0/fm1-smsggdj-0.1.0-notices.zip',release_url:'https://github.com/little-scale/fm1-smsggdj/releases/tag/v0.1.0'};
+globalThis.fetch=async url=>{
+  if(String(url)==='release.json')return {ok:true,json:async()=>release};
+  if(new URL(url,location.href).pathname.endsWith('/fm1-smsggdj-0.1.0.fwsc'))return {ok:true,arrayBuffer:async()=>servedRelease.slice().buffer};
+  return {ok:true,json:async()=>JSON.parse(fs.readFileSync(path.join(APP,'web/manager',url),'utf8'))};
+};
 const sram=emptySRAM().bytes;
 const defaults=JSON.parse(fs.readFileSync(path.join(APP,'web/manager/default-profile.json')));
 const rom=new Uint8Array(fs.readFileSync(path.join(APP,'rom/smsggdj-v0.48.gg')));
@@ -63,17 +73,24 @@ Object.defineProperty(globalThis,'navigator',{configurable:true,value:{userAgent
 await import('../web/manager/ui.mjs');await new Promise(r=>setTimeout(r,0));
 const $=id=>nodes.get(id);
 check(!$('connect').disabled&&$('read-device').disabled,'offline editing starts without a device');
-check($('release-status').textContent.includes('not published'),'no firmware download falsely advertised');
+check(!$('get-release').hidden&&$('release-status').textContent.includes('0.1.0'),'published release is offered');
+check(!$('release-downloads').hidden&&$('download-source').href===release.source,'complete source is offered alongside the firmware');
 await $('connect').onclick();
 check($('installed-firmware').textContent.includes('stock V15'),'one-click connection identifies stock firmware');
 check($('read-device').disabled,'song transfer disabled for stock firmware');
+await $('get-release').onclick();
+check(!$('firmware-install').disabled&&$('firmware-check').textContent.includes('0.1.0'),'published development-identity package is verified and labelled with its release');
+check(!sent.some(p=>p[0]===0xf0&&p[1]===0x22),'downloading published firmware does not enter hardware update mode');
+servedRelease=published.slice();servedRelease[10000]^=1;await $('get-release').onclick();
+check($('firmware-install').disabled&&$('message').textContent.includes('checksum'),'damaged published download disables installation');
+servedRelease=published;await $('get-release').onclick();
+check(!$('firmware-install').disabled,'verified download can be retried');
 input.identity='FM-1_9400';await $('connect').onclick();
 check($('installed-firmware').textContent==='RNBO Player · FM-1_9400','RNBO identity is named and displayed once');
 check($('read-device').disabled,'song transfer disabled for RNBO firmware');
 input.identity='FM-1_9600';await $('connect').onclick();
 check($('installed-firmware').textContent==='Other FM1 firmware · FM-1_9600','unknown firmware identifier is displayed once');
-const fixture=spawnSync(process.env.PYTHON||'python3',[path.join(APP,'tools/browser_fixture.py')],{maxBuffer:4*1024*1024});assert.equal(fixture.status,0,fixture.stderr.toString());
-const raw=Uint8Array.from(fixture.stdout);
+const raw=fixture();
 $('firmware-file').files=[{name:'test.fwsc',size:raw.length,arrayBuffer:async()=>raw.slice().buffer}];
 await $('firmware-file').onchange();
 check(!$('firmware-install').disabled&&$('firmware-check').textContent.includes('1.0.0'),'valid file enables explicit install');

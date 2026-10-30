@@ -10,6 +10,7 @@ mode=sys.argv[1] if len(sys.argv)>1 else 'valid'
 product='FM-1_95010000'
 if mode=='other':product='FM-1_1200'
 if mode=='stock':product='FM-1_015'
+if mode=='development':product='FM-1_9500'
 loader=b'not-machine-code-for-tests\0'+(b'FELUCCA-LOADER-1' if mode!='no-loader' else b'no-loader-marker')+bytes(128)
 raw=package.ufw(bytes([0xa5])*0x93000,loader,product)
 if mode=='overlap':

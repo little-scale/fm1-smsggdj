@@ -20,8 +20,9 @@ This uses GPL version 2 for the GPL-2.0-or-later core and retains the pinned
 Retro-Go distribution's GPLv2 terms. The MPL platform's section 3.3 permits
 the applicable additional GPL terms for this larger work; its original MPL
 notices remain. Independently distributed ROM, browser tools, fonts and SDK
-components keep the terms listed below. No prebuilt firmware release is
-included here yet.
+components keep the terms listed below. Firmware downloads must be accompanied
+by the complete corresponding source and licence archives, as supplied by the
+release packager.
 
 | Component | Source and terms |
 | --- | --- |

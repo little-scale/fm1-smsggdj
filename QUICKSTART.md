@@ -4,9 +4,9 @@ Open **https://little-scale.github.io/fm1-smsggdj/** in Chrome or Edge.
 The browser tools need no Python, Docker, Node.js, Emscripten, SDK or compiler.
 
 Hardware tests have confirmed good playback, browser firmware installation,
-SRAM backup/restore, song upload/replacement and ROM swapping. **There is no
-published firmware download yet.** The page can check and install a local
-`.fwsc` file built from this project. It never automatically installs anything.
+SRAM backup/restore, song upload/replacement and ROM swapping. Under Firmware,
+choose **Use published firmware**, then **Install selected firmware**. The page
+also accepts a local `.fwsc` file. It never automatically installs anything.
 
 ## Connect
 
@@ -24,14 +24,21 @@ transfers while retaining the browser-side cartridge and edits.
 
 1. Export work to keep from the instrument's current firmware. Other apps'
    patches are not migrated into SMSGGDJ.
-2. Under **Firmware**, choose the project's local `.fwsc` package. It checks
+2. Under **Firmware**, click **Use published firmware**, or choose a local
+   `.fwsc` package. It checks the published SHA-256 as well as
    the model/identity, package header, file bounds, checksums and update loader.
 3. Click **Install selected firmware** and confirm. On a connected SMSGGDJ,
    the checked backup option first downloads its saved 32 KiB SRAM.
 4. Leave USB/power connected and the browser open until it finishes. The page
    checks the identity after restart and reconnects to the song manager.
 
-Versioned builds show their version. Development builds show **Development
+Release 0.1.0 preserves the exact hardware-tested firmware, including its
+`FM-1_9500` identity. Its device display therefore still says **Development
+build**. The download is identified as release 0.1.0 by its verified checksum.
+The same identity was used by earlier development builds; reinstall the
+published package if you are unsure which build is running.
+
+Future versioned builds show their embedded version. Development builds show **Development
 build** and their device identity; that identity alone does not identify a
 particular source commit. Build from a known source revision when testing.
 
@@ -89,7 +96,9 @@ is occupied, it chooses the next free local port and prints the actual URL.
   identity, browser and counters. It includes no songs and downloads locally.
   Include the report and what you were doing when reporting a problem.
 
-The page and Mac copy include the browser manager/updater source, not the
-Game Gear emulator, ROM or an FM1 firmware image. Original browser code is MIT;
-upstream browser updater modules retain MPL-2.0 and their credits. See
+The Mac copy includes the published firmware, standalone ROM, complete source
+archive, licence archive and checksums. After unzipping, installation works
+through its localhost page without downloading the firmware again. Original
+browser code and ROM are MIT; the firmware application is GPL-2.0 with retained
+component notices, and the browser updater retains MPL-2.0. See
 [THIRD_PARTY.md](THIRD_PARTY.md).

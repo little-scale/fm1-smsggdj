@@ -9,7 +9,8 @@ build pass. On a physical FM1, the user has confirmed successful browser
 installation, good playback after the performance update, and LFO clearing
 without moving the phrase cursor. Browser SRAM backup/restore, song upload and
 replacement, and ROM swapping have also been confirmed on hardware. CPU/overrun
-measurements remain unverified; no firmware binary is published.
+measurements remain unverified. See the [release downloads](https://github.com/little-scale/fm1-smsggdj/releases)
+for the preserved hardware-tested firmware, ROM, complete source and licences.
 This port reuses the SMS Plus core from the earlier
 working ESP32-S3 setup. The default ROM is the unchanged SMSGGDJ **v0.48** Game
 Gear release, pinned with its symbol map and hash in `rom/manifest.json`.
@@ -28,14 +29,20 @@ selects matching ports, and offers installation or cartridge transfers.
 [QUICKSTART.md](QUICKSTART.md) walks through installation, song backups and recovery.
 The page also offers a small Mac download requiring Python 3 only.
 
-The installer accepts a local `.fwsc` file and checks the package before an
+Choose **Use published firmware**, or select a local `.fwsc` file. The installer
+checks the package before an
 explicit installation. It can resume an interrupted update and verify restart;
 a pre-update SRAM backup is selected by default when SMSGGDJ is connected.
-There is no published firmware binary yet. Physical browser USB transfers,
-installation/recovery and the latest audio performance remain unverified.
+The firmware, source and licence archives are also available as direct downloads
+in the Firmware section. The first release preserves the tested `FM-1_9500`
+package exactly; its device still reports **Development build**. Release 0.1.0
+is the distribution version, and the device identity alone cannot distinguish
+older development builds. Interrupted-update recovery and extended timing
+measurements remain separate from the confirmed hardware tests.
 
-From a source checkout, **Manager-GGDJ.command** now starts the source tools
-without a build or any additional Python packages. It needs neither Node.js,
+From a source checkout, **Manager-GGDJ.command** assembles and starts the browser
+tools without a firmware build or any additional Python packages. Published
+assets are downloaded once and checked against their pinned hashes. It needs neither Node.js,
 Emscripten, Docker, SDK nor toolchain. Those dependencies below are for developers.
 
 ## Get the source
@@ -260,15 +267,19 @@ Built on [SMSGGDJ](https://github.com/little-scale/smsggdj),
 
 `python3 tools/site.py` packages `build/site/` and
 `build/FM1-SMSGGDJ-Manager.zip` using only Python's standard library. It reads
-only the source browser app, so neither platform submodules nor a firmware/WASM
-build are required. The hosted app includes a Mac-download link; the ZIP has an
+the source browser app and the published release assets, so neither platform
+submodules nor a firmware/WASM build are required. It downloads and verifies
+the immutable release files before packaging. The hosted app includes a Mac-download link; the ZIP has an
 executable launcher and a localhost-only server. Competing local servers use
-separate ports. No `.fwsc`, `.gg`, `.sms` or `.wasm` files are packaged.
+separate ports. Both the site and ZIP include the published `.fwsc`, `.gg`,
+complete recursive source archive, licence archive and checksums. No emulator
+WASM is bundled. An unpublished manifest still produces browser tools alone.
 
-The GitHub Actions browser-tools workflow tests and publishes that tools-only
+The GitHub Actions browser-tools workflow tests and publishes that
 site on changes. It runs package/discovery/update simulations, actual page
 handlers with a simulated DOM/MIDI device, file-codec tests and standalone
-packaging checks. It does not build or publish firmware. Visual browser review
+packaging checks. It mirrors the already published, hash-verified release;
+it does not compile firmware. Visual browser review
 and physical USB checks remain separate from those simulations.
 
 For a future reviewed firmware release, `./Build-GGDJ.command --release 0.1.0`
@@ -277,10 +288,12 @@ identity. The local installer follows the checked package path in
 `build/device-status.json`. Playback and the main browser transfers have now
 passed the user's hardware tests. The known Z80 licensing conflict has been
 addressed with documented published permissions, without replacing the CPU.
-Firmware publication needs a release package with matching complete source
-(including platform submodules) and all applicable licence notices. The
-checked-in `web/manager/release.json` deliberately offers no firmware download;
-the tools-only site builder rejects a manifest that tries to enable one.
+`python3 tools/release.py --version 0.1.0` packages the preserved tested firmware,
+unchanged ROM, complete tracked source (including both platform submodules),
+licence notices and checksums. It requires a clean committed tree and verifies
+the tested firmware hash and execution-source snapshot. It performs no build,
+device access or publication. The release manifest is enabled after those
+assets are published on GitHub; the site builder verifies every included asset.
 
 To recheck preservation of the hardware-tested snapshot after the licence
 update, run `python3 tools/check_licensed_build.py --firmware build/ggdj-fm1.fwsc`.

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
-"""Render the tools-only site in headless Chrome on a CI runner; no MIDI writes."""
+"""Render the site in headless Chrome on a CI runner; no MIDI writes."""
 import argparse
+import json
 from functools import partial
 from http.server import ThreadingHTTPServer
 from html.parser import HTMLParser
@@ -43,7 +44,9 @@ def main():
                 if result.returncode:raise SystemExit('Chrome failed: '+result.stderr[-2000:])
                 dom=Elements();dom.feed(result.stdout)
                 if '0/32 songs' not in dom.ids.get('document-status',''):raise SystemExit('Browser app did not initialise its song controls.')
-                if 'not published' not in dom.ids.get('release-status',''):raise SystemExit('Browser release metadata did not load.')
+                release=json.loads((root/'release.json').read_text())
+                expected='Published firmware: '+release['version'] if release['available'] else 'not published'
+                if expected not in dom.ids.get('release-status',''):raise SystemExit('Browser release metadata did not load.')
                 if 'No device connected' not in dom.ids.get('device-info',''):raise SystemExit('Unexpected initial connection state.')
                 if not (out/(name+'.png')).is_file():raise SystemExit('Browser screenshot was not produced.')
                 print('PASS real Chrome app initialisation and screenshot: '+name)

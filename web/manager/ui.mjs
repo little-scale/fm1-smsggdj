@@ -4,6 +4,7 @@ import {Client,MidiTransport,PreviewTransport,OP} from "./transport.mjs";
 import {discoverFM1,connectManager,updaterAccess} from "./connect.mjs";
 import {describeIdentity,inspectFirmware,installationIssue,installPrepared} from "./firmware.mjs";
 import {Updater} from "./vendor/fm1ota.mjs";
+import {validateRelease} from "./release.mjs";
 const $=id=>document.getElementById(id);
 let doc=emptySRAM(),label="New cartridge",baseCRC=null,client=null,midi=null,busy=false,replaceSlot=null,device=null,preparedFirmware=null,writingFirmware=false,availableRelease=null;
 let defaults;
@@ -111,9 +112,10 @@ $("preview").hidden=!(new URLSearchParams(location.search).has("preview")||hasPr
 $("disconnect").onclick=()=>{disconnect();message("Disconnected. Browser files and edits are retained.");};
 async function firmwareSelected(bytes,name,expectedSHA256){
   const prepared=await inspectFirmware(bytes,{expectedSHA256});
-  preparedFirmware={...prepared,fileName:name};
+  const releaseVersion=prepared.sha256===availableRelease?.sha256&&prepared.product===availableRelease.product?availableRelease.version:null;
+  preparedFirmware={...prepared,fileName:name,releaseVersion};
   const issue=device?installationIssue(device.id,prepared):null;
-  $("firmware-check").textContent=issue||`Checked: ${prepared.kind==="stock"?"M-VAVE stock":"SMSGGDJ"} · ${prepared.version} · ${(bytes.length/1024).toFixed(0)} KiB`;
+  $("firmware-check").textContent=issue||`Checked: ${prepared.kind==="stock"?"M-VAVE stock":"SMSGGDJ"} · ${releaseVersion||prepared.version} · ${(bytes.length/1024).toFixed(0)} KiB`;
   message(issue||"Firmware file checked. Connect the FM1 and click Install selected firmware when ready.",!!issue);
   refreshButtons();
 }
@@ -137,7 +139,7 @@ $("firmware-install").onclick=()=>task(async()=>{
   if(!prepared||!selected)throw new Error("Choose a firmware file and connect the FM1 first.");
   const issue=installationIssue(selected.id,prepared);if(issue)throw new Error(issue);
   const access=updaterAccess(midi,selected);
-  if(!confirm(`Install ${prepared.kind==="stock"?"M-VAVE stock V15":"SMSGGDJ "+prepared.version}? This replaces the current instrument. Export work you want to keep first. Unsaved working edits will be lost. Keep USB and power connected until the update finishes.`))return;
+  if(!confirm(`Install ${prepared.kind==="stock"?"M-VAVE stock V15":"SMSGGDJ "+(prepared.releaseVersion||prepared.version)}? This replaces the current instrument. Export work you want to keep first. Unsaved working edits will be lost. Keep USB and power connected until the update finishes.`))return;
   if(client&&$("backup-before-install").checked){
     message("Downloading your SRAM backup before installation…");
     const bytes=await client.read();download(bytes,"smsggdj-before-update-"+new Date().toISOString().replace(/[:.]/g,"-")+".sav");
@@ -174,10 +176,11 @@ $("download-report").onclick=()=>task(async()=>{
 });
 window.addEventListener("beforeunload",event=>{if(writingFirmware||busy||doc.dirty){event.preventDefault();event.returnValue="";}});
 fetch("release.json").then(r=>{if(!r.ok)throw new Error();return r.json();}).then(release=>{
-  if(release.schema!==1)throw new Error();
+  validateRelease(release,location.href);
   if(release.available){
-    if(!/^FM-1_95\d{6}$/.test(release.product)||!/^\d{1,2}\.\d{1,2}\.\d{1,2}$/.test(release.version)||!/[a-f0-9]{64}/i.test(release.sha256)||typeof release.package!=="string")throw new Error();
     availableRelease=release;$("get-release").hidden=false;$("release-status").textContent=`Published firmware: ${release.version}`;
+    for(const [id,field] of [["download-firmware","package"],["download-release-rom","rom"],["download-source","source"],["download-notices","notices"],["release-notes","release_url"]])$(id).href=release[field];
+    $("release-downloads").hidden=false;
   }else $("release-status").textContent=release.message||"No firmware download is published yet. Choose a local .fwsc file.";
   refreshButtons();
 }).catch(()=>{$("release-status").textContent="Firmware download information is unavailable. You can still choose a local .fwsc file.";});

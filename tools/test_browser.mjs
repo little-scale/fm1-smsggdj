@@ -12,6 +12,7 @@ import {candidatePairs,discoverFM1,connectManager,updaterAccess} from '../web/ma
 import {Updater,pack7,unpack7} from '../web/manager/vendor/fm1ota.mjs';
 import {frame,unframe} from '../web/manager/transport.mjs';
 import {put32,encodeProfile} from '../web/manager/format.mjs';
+import {validateRelease} from '../web/manager/release.mjs';
 if(!globalThis.crypto)globalThis.crypto=webcrypto;
 const APP=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 let checks=0;
@@ -26,6 +27,13 @@ check(prepared.product==='FM-1_95010000'&&prepared.version==='1.0.0','versioned 
 check(firmwareVersion('FM-1_9500')==='Development build','development identity is not presented as a release');
 check(firmwareVersion('FM-1_95000102')==='0.1.2','version decoding');
 check(firmwareVersion('FM-1_1200')===null,'another app is not SMSGGDJ');
+const release={schema:1,available:true,version:'0.1.0',product:'FM-1_9500',sha256:'a'.repeat(64),package:'releases/v0.1.0/fm1-smsggdj-0.1.0.fwsc',rom:'releases/v0.1.0/smsggdj-v0.48.gg',source:'releases/v0.1.0/fm1-smsggdj-0.1.0-source.tar.gz',notices:'releases/v0.1.0/fm1-smsggdj-0.1.0-notices.zip',release_url:'https://github.com/little-scale/fm1-smsggdj/releases/tag/v0.1.0'};
+check(validateRelease(release,'https://example.test/')===release,'published release may preserve the tested development identity');
+check(validateRelease({schema:1,available:false},'https://example.test/').available===false,'unpublished tools-only mode remains available');
+for(const fields of [{product:'FM-1_1200'},{product:'FM-1_95010000'},{sha256:'x'+'a'.repeat(64)},{package:'https://another.test/file.fwsc'},{source:'../source.tar.gz'},{notices:'javascript:alert(1)'},{release_url:'https://another.test/'}]){
+  assert.throws(()=>validateRelease({...release,...fields},'https://example.test/'));checks++;
+}
+check((await inspectFirmware(fixture('development'))).product==='FM-1_9500','retained development package passes complete integrity checks');
 await rejects(()=>inspectFirmware(new Uint8Array(3)),/complete/);
 await rejects(()=>inspectFirmware(new Uint8Array(4*1024*1024+1)),/complete/);
 await rejects(()=>inspectFirmware(bytes,{expectedSHA256:'0'.repeat(64)}),/download checksum/);

@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 """Serve the source cartridge manager or built emulator; no hardware writes."""
 import argparse
+import runpy
 from pathlib import Path
 from serve import serve
 APP=Path(__file__).resolve().parents[1]
+
+def manager_site(app):
+    # Static packaging only: no SDK, compiler, emulator or firmware build.
+    return runpy.run_path(str(Path(__file__).with_name('site.py')))['build_site'](app)[0]
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
@@ -14,7 +19,7 @@ def main():
     if not 1024 <= a.port <= 65535:
         ap.error('--port must be between 1024 and 65535')
     if a.manager:
-        root,route=APP/'web','/manager/'
+        root,route=manager_site(APP),'/'
     else:
         root,route=APP/'build/emu','/'
         if not (root/'app.wasm').is_file():
