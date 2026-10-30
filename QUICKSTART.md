@@ -3,8 +3,8 @@
 Open **https://little-scale.github.io/fm1-smsggdj/** in Chrome or Edge.
 The browser tools need no Python, Docker, Node.js, Emscripten, SDK or compiler.
 
-The firmware boots on an FM1, but audio-performance improvements and physical
-browser transfers/installation still need hardware validation. **There is no
+Hardware tests have confirmed good playback, browser firmware installation,
+SRAM backup/restore, song upload/replacement and ROM swapping. **There is no
 published firmware download yet.** The page can check and install a local
 `.fwsc` file built from this project. It never automatically installs anything.
 
