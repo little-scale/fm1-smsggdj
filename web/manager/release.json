@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "available": false,
+  "message": "A firmware download is not published yet. You can choose a local FM1 SMSGGDJ .fwsc file below.",
+  "source": "https://github.com/little-scale/fm1-smsggdj"
+}

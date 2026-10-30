@@ -17,6 +17,7 @@ def main():
     mode.add_argument('--host',action='store_true')
     mode.add_argument('--web',action='store_true')
     mode.add_argument('--device',action='store_true')
+    ap.add_argument('--release', metavar='X.Y.Z', help='versioned identity and package for a reviewed release build')
     a=ap.parse_args()
     require_platform()
     out=APP/'build';out.mkdir(exist_ok=True)
@@ -37,16 +38,17 @@ def main():
         return original_tc(tool,*args)
     u.tc=tc
     sys.argv=[str(BASE/'tools/build.py'),str(APP)]+(['--web'] if a.web else [] if a.device else ['--host'])
+    if a.release:sys.argv+=['--release',a.release]
     kind='device' if a.device else 'web' if a.web else 'host'
-    status={'success':False,'mode':kind,'installed':False,'hardware_timing_verified':False}
+    status={'success':False,'mode':kind,'version':a.release or 'development','installed':False,'hardware_timing_verified':False}
     try:
         u.main()
         if a.device:
-            pkg=out/'ggdj-fm1.fwsc'
+            pkg=out/('ggdj-fm1-'+a.release+'.fwsc' if a.release else 'ggdj-fm1.fwsc')
             status.update(package=str(pkg),sha256=hashlib.sha256(pkg.read_bytes()).hexdigest())
         elif a.web:
             shutil.copytree(APP/'web/manager',out/'emu/manager',dirs_exist_ok=True)
-            for test in ('test_web.mjs', 'test_manager.mjs', 'test_format.mjs'):
+            for test in ('test_web.mjs', 'test_manager.mjs', 'test_format.mjs', 'test_browser.mjs', 'test_ui.mjs'):
                 subprocess.run(['node', str(APP/'tools'/test)], check=True, timeout=120)
         else:
             validation=out/'validation';validation.mkdir(exist_ok=True)

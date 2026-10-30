@@ -17,6 +17,24 @@ Gear release, pinned with its symbol map and hash in `rom/manifest.json`.
 - Swap compatible SMSGGDJ ROMs, with validated address profiles and a built-in
   ROM fallback.
 
+## Use the browser tools
+
+Open **[FM1 SMSGGDJ in your browser](https://little-scale.github.io/fm1-smsggdj/)**
+in Chrome or Edge. Click **Connect FM1**: it identifies the installed firmware,
+selects matching ports, and offers installation or cartridge transfers.
+[QUICKSTART.md](QUICKSTART.md) walks through installation, song backups and recovery.
+The page also offers a small Mac download requiring Python 3 only.
+
+The installer accepts a local `.fwsc` file and checks the package before an
+explicit installation. It can resume an interrupted update and verify restart;
+a pre-update SRAM backup is selected by default when SMSGGDJ is connected.
+There is no published firmware binary yet. Physical browser USB transfers,
+installation/recovery and the latest audio performance remain unverified.
+
+From a source checkout, **Manager-GGDJ.command** now starts the source tools
+without a build or any additional Python packages. It needs neither Node.js,
+Emscripten, Docker, SDK nor toolchain. Those dependencies below are for developers.
+
 ## Get the source
 
 ```sh
@@ -48,11 +66,12 @@ python3 tools/build.py --device   # builds only; never installs or flashes
 ```
 
 On the configured Mac workspace, double-click **Preview-GGDJ.command**,
-**Manager-GGDJ.command**, **Verify-GGDJ.command**, or **Build-GGDJ.command**.
+**Verify-GGDJ.command**, or **Build-GGDJ.command**. The standalone
+**Manager-GGDJ.command** is described above.
 After a successful device build, **Install-GGDJ.command** validates its hash,
 asks before installing, and checks the device identity after restart. Export
 work to preserve from the current firmware first; app storage is not migrated.
-The launchers optionally load a sibling workspace's `setup/env.sh`; a fresh
+The build/install/preview launchers optionally load a sibling workspace's `setup/env.sh`; a fresh
 checkout uses the tools on PATH. `FM1_BASE` can explicitly select another
 platform checkout; the default is the pinned submodule.
 
@@ -113,10 +132,10 @@ explains the tracker itself.
 
 ## Browser cartridge manager
 
-Launch **Manager-GGDJ.command**, or serve the built preview and open
-`http://127.0.0.1:8765/manager/` in Chrome/Edge. Files can be edited offline.
-Device transfer uses Web MIDI with SysEx permission; select the FM1's MIDI input
-and output and connect. The browser-preview connection uses the same compiled
+Use the hosted page, launch **Manager-GGDJ.command**, or serve the built
+preview and open its `/manager/` page in Chrome/Edge. Files can be edited offline.
+Device transfer uses Web MIDI with SysEx permission; **Connect FM1** detects
+the ports automatically. Manual selection is under Advanced connection. The browser-preview connection uses the same compiled
 C transfer handler. **Physical USB transfer is implemented but not yet tested
 on an FM1.**
 
@@ -230,3 +249,26 @@ Built on [SMSGGDJ](https://github.com/little-scale/smsggdj),
 [SMS Plus / Retro-Go](https://github.com/ducalex/retro-go),
 [fm1-base](https://github.com/charlesvestal/fm1-base), and
 [felucca-bsp](https://github.com/hugelton/felucca-bsp).
+
+## Browser site and releases
+
+`python3 tools/site.py` packages `build/site/` and
+`build/FM1-SMSGGDJ-Manager.zip` using only Python's standard library. It reads
+only the source browser app, so neither platform submodules nor a firmware/WASM
+build are required. The hosted app includes a Mac-download link; the ZIP has an
+executable launcher and a localhost-only server. Competing local servers use
+separate ports. No `.fwsc`, `.gg`, `.sms` or `.wasm` files are packaged.
+
+The GitHub Actions browser-tools workflow tests and publishes that tools-only
+site on changes. It runs package/discovery/update simulations, actual page
+handlers with a simulated DOM/MIDI device, file-codec tests and standalone
+packaging checks. It does not build or publish firmware. Visual browser review
+and physical USB checks remain separate from those simulations.
+
+For a future reviewed firmware release, `./Build-GGDJ.command --release 0.1.0`
+passes the version to the pinned platform and produces a versioned package and
+identity. The local installer follows the checked package path in
+`build/device-status.json`. Firmware publication still requires completing the
+hardware work and resolving the inherited CPU/core licensing conflict. The
+checked-in `web/manager/release.json` deliberately offers no firmware download;
+the tools-only site builder rejects a manifest that tries to enable one.

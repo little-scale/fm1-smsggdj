@@ -1,2 +1,4 @@
 # Unified diff context includes a leading space on otherwise blank lines.
 vendor/performance.patch -whitespace
+# Retain the upstream license text byte-for-byte.
+web/manager/vendor/MPL-2.0.txt -whitespace

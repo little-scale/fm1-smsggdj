@@ -51,6 +51,7 @@ CPU load is smoothed, so zero new overruns is more useful than one low reading.
 | Audio | TONE, KIT on T1/T2/T3, WAV; listen for gaps, distortion and hangs during navigation |
 | Save / power cycle | FILES SAVE with confirmation; wait CARTRIDGE SAVED; cycle power; FILES LOAD restores song |
 | USB audio | Record output, check rate and continuity during complex playback |
+| Browser firmware install | Connect detects current identity; declining confirmation sends no update; selected file installs and reconnects; saved SRAM backup is downloaded first |
 | Manager SRAM | Stop playback; connect input/output with SysEx; read SRAM, download backup, write and read back |
 | Manager song | Export a saved song; edit/import a copy; send SRAM; load through original ROM |
 | Manager ROM | Back up SRAM; upload compatible sample-patched v0.48 ROM; reboot; restore built-in |

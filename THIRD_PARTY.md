@@ -20,6 +20,7 @@ release. No prebuilt firmware release is included here.
 | Z80 CPU | Juergen Buchmueller and contributors listed in `vendor/smsplus/cpu/z80.c`. Separate non-commercial freeware notice, permission to modify/redistribute with credit, and required retained notice. **Not MIT, GPL, or OSI-approved open source.** |
 | SMSGGDJ v0.48 ROM | [little-scale/smsggdj](https://github.com/little-scale/smsggdj), Seb Tomczak, MIT; original `rom/LICENSE` retained. ROM bytes unchanged. Source revision and SHA-256 are in `rom/manifest.json`. |
 | Song codecs | `web/manager/vendor/rle.mjs` and `smdj4.mjs`, adapted from SMSGGDJ's MIT browser tools. Original license and source/hash provenance are in that directory. Changes: ES module wrappers and removal of command-line self-tests. |
+| Browser firmware updater | `web/manager/vendor/fm1ota.mjs` and `fm1pkg.mjs`, unmodified apart from the extension, from pinned fm1-base revision `bbfd4615e344028c90375bbdd79968e1b6ba2cd9`. MPL-2.0; Charles Vestal, Leo Kuroshita and Hügelton Instruments. Source/hash provenance and MPL text are included in that directory. |
 | Browser panel | `web/emu/index.html`, adapted from fm1-base, retains Charles Vestal's MPL-2.0 notice. The app/worklet adapters are original MIT files. |
 | fm1-base / felucca-bsp | Pinned Git submodules under `platform/fm1-base`; retain their MPL-2.0 and individual dependency notices. See the platform's `LICENSE`, `LICENSING.md` and `CREDITS.md`. |
 | SDK, fonts, compiler | Not bundled here; retain their upstream terms. See the platform's licensing documentation. |

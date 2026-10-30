@@ -1,24 +1,24 @@
 #!/usr/bin/env python3
-"""Serve the built browser preview locally. Does not connect to hardware."""
+"""Serve the source cartridge manager or built emulator; no hardware writes."""
 import argparse
-from functools import partial
-from http.server import ThreadingHTTPServer,SimpleHTTPRequestHandler
 from pathlib import Path
-import webbrowser
+from serve import serve
 APP=Path(__file__).resolve().parents[1]
-ap=argparse.ArgumentParser(description=__doc__)
-ap.add_argument('--port',type=int,default=8765)
-ap.add_argument('--no-browser',action='store_true')
-ap.add_argument('--manager',action='store_true')
-a=ap.parse_args()
-if not (APP/'build/emu/app.wasm').exists():raise SystemExit('First run tools/build.py --web')
-url=f'http://127.0.0.1:{a.port}/'+('manager/' if a.manager else '')
-try:
-    server=ThreadingHTTPServer(('127.0.0.1',a.port),partial(SimpleHTTPRequestHandler,directory=str(APP/'build/emu')))
-except PermissionError:
-    raise SystemExit('This process cannot listen on a local socket. Run Preview-GGDJ.command from Finder or your own Terminal.')
-print('GGDJ preview: '+url,flush=True)
-if not a.no_browser:webbrowser.open(url)
-try:server.serve_forever()
-except KeyboardInterrupt:pass
-finally:server.server_close()
+
+def main():
+    ap=argparse.ArgumentParser(description=__doc__)
+    ap.add_argument('--port',type=int,default=8765)
+    ap.add_argument('--no-browser',action='store_true')
+    ap.add_argument('--manager',action='store_true')
+    a=ap.parse_args()
+    if not 1024 <= a.port <= 65535:
+        ap.error('--port must be between 1024 and 65535')
+    if a.manager:
+        root,route=APP/'web','/manager/'
+    else:
+        root,route=APP/'build/emu','/'
+        if not (root/'app.wasm').is_file():
+            raise SystemExit('First run tools/build.py --web, or use --manager for the cartridge tools without a build.')
+    serve(root,route,a.port,not a.no_browser)
+
+if __name__=='__main__':main()

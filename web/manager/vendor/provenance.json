@@ -8,5 +8,17 @@
     "source": "https://github.com/little-scale/smsggdj/blob/00418d944dd72da601d1f4facf8c4314f87540ab/tools/smdj4.js",
     "sha256": "b724f7b19e56ba968e4497553b6a18b445df745dd3d689583bb2f19be5a1c112",
     "changes": "ES module wrapper; command-line self-test omitted"
+  },
+  "fm1ota": {
+    "source": "https://github.com/charlesvestal/fm1-base/blob/bbfd4615e344028c90375bbdd79968e1b6ba2cd9/web/fm1ota.js",
+    "sha256": "0072b2381c92ef805a45d3dacf1095b8342dc1da2a0e28d654b885e7b9e64498",
+    "license": "MPL-2.0",
+    "changes": "Filename extension only; original source unchanged"
+  },
+  "fm1pkg": {
+    "source": "https://github.com/charlesvestal/fm1-base/blob/bbfd4615e344028c90375bbdd79968e1b6ba2cd9/web/fm1pkg.js",
+    "sha256": "7d90fbcce45893e99d3cad2fbc7eff3550d645f264cd53b8a79a01c8627fb3fd",
+    "license": "MPL-2.0",
+    "changes": "Filename extension only; original source unchanged"
   }
 }

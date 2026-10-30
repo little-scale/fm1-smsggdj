@@ -1,0 +1,37 @@
+{
+  "software_checks": {
+    "success": true,
+    "checks": 89,
+    "physical_usb_verified": false,
+    "firmware_writes_simulated": true
+  },
+  "page_flow_checks": {
+    "success": true,
+    "checks": 18,
+    "simulated_dom_and_midi": true,
+    "visual_browser_verified": false,
+    "hardware_usb_verified": false
+  },
+  "standalone_packaging_tests": 5,
+  "versioned_host_build_passed": true,
+  "wasm_checks": {
+    "success": true,
+    "checks": 23,
+    "peak": 0.16473698616027832,
+    "wasm_bytes": 232991,
+    "hardware_timing_verified": false
+  },
+  "cartridge_transfer_checks": {
+    "success": true,
+    "checks": 24,
+    "rom_upload_bytes": 131072,
+    "lost_ack_retries": true,
+    "interrupted_rom_fallback": true,
+    "hardware_usb_verified": false
+  },
+  "download_bytes": 42136,
+  "site_contains_firmware_or_rom": false,
+  "physical_browser_installation_verified": false,
+  "physical_browser_cartridge_transfers_verified": false,
+  "visual_review": "Local headless Chrome is blocked by this session; real Chrome checks run in CI before deployment."
+}

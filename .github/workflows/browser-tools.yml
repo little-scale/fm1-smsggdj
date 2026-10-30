@@ -1,0 +1,67 @@
+name: Test and publish browser tools
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'web/manager/**'
+      - 'tools/**'
+      - 'LICENSE'
+      - '.github/workflows/browser-tools.yml'
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: browser-tools-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Test the dependency-free package and browser flows
+        run: |
+          python3 --version
+          node --version
+          python3 tools/test_site.py
+          node tools/test_browser.mjs
+          node tools/test_ui.mjs
+          node tools/test_format.mjs
+      - name: Build tools-only site and Mac download
+        run: python3 tools/site.py
+      - name: Check the app in real Chrome
+        run: python3 tools/check_browser.py --require
+      - name: Save browser review screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-review
+          path: build/browser-review
+          if-no-files-found: ignore
+      - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - name: Publish browser tools
+        id: deployment
+        uses: actions/deploy-pages@v5
