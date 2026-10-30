@@ -244,9 +244,11 @@ video is not translated into screen-reader text.
 ## License and credits
 
 **MIT for the original FM1/browser code** — see [LICENSE](LICENSE). The ROM
-and browser song codecs are also MIT. **The combined emulator is mixed-license,
-with an inherited non-commercial Z80 restriction and unresolved GPL
-compatibility; it is not an all-MIT distribution.** See
+and browser song codecs are also MIT. **The combined firmware application is
+GPL-2.0, with retained component notices; it is not an all-MIT distribution.**
+The inherited Z80 notice was corrected using published BSD permissions for
+the existing V3.9 lineage and Eke-Eke's changes, preserving the tested CPU code.
+See [vendor/Z80-LICENSING.md](vendor/Z80-LICENSING.md) and
 [THIRD_PARTY.md](THIRD_PARTY.md) for scope, notices and attribution.
 
 Built on [SMSGGDJ](https://github.com/little-scale/smsggdj),
@@ -272,7 +274,15 @@ and physical USB checks remain separate from those simulations.
 For a future reviewed firmware release, `./Build-GGDJ.command --release 0.1.0`
 passes the version to the pinned platform and produces a versioned package and
 identity. The local installer follows the checked package path in
-`build/device-status.json`. Firmware publication still requires completing the
-hardware work and resolving the inherited CPU/core licensing conflict. The
+`build/device-status.json`. Playback and the main browser transfers have now
+passed the user's hardware tests. The known Z80 licensing conflict has been
+addressed with documented published permissions, without replacing the CPU.
+Firmware publication needs a release package with matching complete source
+(including platform submodules) and all applicable licence notices. The
 checked-in `web/manager/release.json` deliberately offers no firmware download;
 the tools-only site builder rejects a manifest that tries to enable one.
+
+To recheck preservation of the hardware-tested snapshot after the licence
+update, run `python3 tools/check_licensed_build.py --firmware build/ggdj-fm1.fwsc`.
+This compares 48 source/configuration/ROM files and the exact package checksum;
+it does not flash the FM1 or replace device timing measurements.

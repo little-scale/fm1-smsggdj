@@ -1,0 +1,299 @@
+{
+  "schema": 1,
+  "baseline_commit": "d28097a86f605659366e93161bb27d0bcc435e3b",
+  "result": "licensing comments and distribution documentation updated; tested execution source retained",
+  "source_files": {
+    "app.c": {
+      "sha256_before": "aa89e27e325bffb2157777dc7285e944ae49df4acc9302bdad3e29b3dcd1708a",
+      "sha256_after": "aa89e27e325bffb2157777dc7285e944ae49df4acc9302bdad3e29b3dcd1708a",
+      "non_comment_sha256": "b0f5a8bfb8c5ba35ed759bd0ea24f45b03888cfadf7d30409e69fbbea32397ae"
+    },
+    "app.h": {
+      "sha256_before": "2255564cf8773034a7cb68d625e6adfeff441f2b02c6376eb344534ae7b1d27b",
+      "sha256_after": "2255564cf8773034a7cb68d625e6adfeff441f2b02c6376eb344534ae7b1d27b",
+      "non_comment_sha256": "4738e199392a1a68136975e052f265e8a228164722ae5a8f20bef44a2a2f5bce"
+    },
+    "compat.h": {
+      "sha256_before": "b6fafbb874a87d7175b28bbc933685e4d6a6598e600dbe4d62b3bbe5f3530f74",
+      "sha256_after": "b6fafbb874a87d7175b28bbc933685e4d6a6598e600dbe4d62b3bbe5f3530f74",
+      "non_comment_sha256": "14b248b1f261508f24a8efdb233b09903200a885bfaa35c9a59bd0344d76e6fa"
+    },
+    "engine.c": {
+      "sha256_before": "013ed40ca9918cb476637e44fb47bc3bdab18da991ffe1de5e754c6710e09022",
+      "sha256_after": "013ed40ca9918cb476637e44fb47bc3bdab18da991ffe1de5e754c6710e09022",
+      "non_comment_sha256": "dd7e370cfd801ef3ed7261b1531cbeda6fc11e9845b3d67ef82b490be6e074d0"
+    },
+    "fm1.toml": {
+      "sha256_before": "38410002c24323a66f36e88cb7d6b50679f3212bb518762e7339ec9268204e4e",
+      "sha256_after": "38410002c24323a66f36e88cb7d6b50679f3212bb518762e7339ec9268204e4e",
+      "non_comment_sha256": "38410002c24323a66f36e88cb7d6b50679f3212bb518762e7339ec9268204e4e"
+    },
+    "gg.h": {
+      "sha256_before": "02e50c5aa6d55476889d504bfb38088b226e37467c3025d82fec323f945a7dff",
+      "sha256_after": "02e50c5aa6d55476889d504bfb38088b226e37467c3025d82fec323f945a7dff",
+      "non_comment_sha256": "611da3322432380938105582c137d28586ce44c649baebeea9fabf158860168c"
+    },
+    "manager.c": {
+      "sha256_before": "361803c77edfdf8b2134289f0c157610e71edfdbe8fc7a8cdb33a944d96b3c0b",
+      "sha256_after": "361803c77edfdf8b2134289f0c157610e71edfdbe8fc7a8cdb33a944d96b3c0b",
+      "non_comment_sha256": "8c63237cf8885c7584b77131e0eabbd087ea6a7b3c5e9251fe1fd30db5653c45"
+    },
+    "manager.h": {
+      "sha256_before": "6010760eb4376cf50c6a330091dc1bcc50f4b59445fc20ad7d79bc313245823f",
+      "sha256_after": "6010760eb4376cf50c6a330091dc1bcc50f4b59445fc20ad7d79bc313245823f",
+      "non_comment_sha256": "a0c1366dac5b524b7f57b9b4f4e88709313a55e87a8e4b6ae890f366dc14af02"
+    },
+    "memory.h": {
+      "sha256_before": "e6b8339a6a776a0d2a59d51c5a5db83db18f380a20331b70f80b678d9de8b3e5",
+      "sha256_after": "e6b8339a6a776a0d2a59d51c5a5db83db18f380a20331b70f80b678d9de8b3e5",
+      "non_comment_sha256": "f9d2295d26d850f5e4840de58a4de04b94d9d50ac50776e95e714f13680719b6"
+    },
+    "profile.c": {
+      "sha256_before": "4e9b4164a9adcd4b4345300964651cb8ad14dc1582b8fc138841c4dc34a87d68",
+      "sha256_after": "4e9b4164a9adcd4b4345300964651cb8ad14dc1582b8fc138841c4dc34a87d68",
+      "non_comment_sha256": "13bdb03ea351a64e6677899f306e963fae7d6f52247bdcad22a252361a6d1ef5"
+    },
+    "profile.h": {
+      "sha256_before": "c6bd0790be67382c7c78bd6a0b14aedc70366c1963b372df55725334e1822f15",
+      "sha256_after": "c6bd0790be67382c7c78bd6a0b14aedc70366c1963b372df55725334e1822f15",
+      "non_comment_sha256": "c9d2b04930c83abc63d28f827f9a854f15e76cd9232a93b1c9a309698853f84c"
+    },
+    "rom/manifest.json": {
+      "sha256_before": "dbb5eaf1ad7a9a573e044c7985bf4fa2008c0fa9d7bf4758c6bd600078cb91e5",
+      "sha256_after": "dbb5eaf1ad7a9a573e044c7985bf4fa2008c0fa9d7bf4758c6bd600078cb91e5",
+      "non_comment_sha256": "dbb5eaf1ad7a9a573e044c7985bf4fa2008c0fa9d7bf4758c6bd600078cb91e5"
+    },
+    "rom/smsggdj-v0.48.gg": {
+      "sha256_before": "f4c8f53eda77f4c2c89a96c48db6f460d167e4c1c2218db52924db36ffd8f71e",
+      "sha256_after": "f4c8f53eda77f4c2c89a96c48db6f460d167e4c1c2218db52924db36ffd8f71e",
+      "non_comment_sha256": "f4c8f53eda77f4c2c89a96c48db6f460d167e4c1c2218db52924db36ffd8f71e"
+    },
+    "save.c": {
+      "sha256_before": "a935299484dd0d75647dcf7c57485164d2b9f028fcad6f1a8e188cd88bb0c78c",
+      "sha256_after": "a935299484dd0d75647dcf7c57485164d2b9f028fcad6f1a8e188cd88bb0c78c",
+      "non_comment_sha256": "732cd4b40e67d2dbf43b42615a681f553727735a4ee0153a088893350c1ebab9"
+    },
+    "save.h": {
+      "sha256_before": "c9fa93747cd40584f229b566b4b4c6d91c75cc2674ec91f40a4304ecaeb8bd8d",
+      "sha256_after": "c9fa93747cd40584f229b566b4b4c6d91c75cc2674ec91f40a4304ecaeb8bd8d",
+      "non_comment_sha256": "1eaed485523b420d4f1feb2fe5ae2ac5bc7b037de03edc22593504a6c7d0829f"
+    },
+    "tests/pixels.c": {
+      "sha256_before": "a98c6fdc735593afcc19033e38fddbe0f90998fd267fb2312dba769814e4b54c",
+      "sha256_after": "a98c6fdc735593afcc19033e38fddbe0f90998fd267fb2312dba769814e4b54c",
+      "non_comment_sha256": "6c0f237da5d0e241fb4dbc1eff9708e9dcb26e8f652ed637f6dfb2bae5c39fa0"
+    },
+    "tests/test_core.c": {
+      "sha256_before": "ee865477316868f3575b9cc68d2f6b8cbba88f6d10cc37e4d478dc002acfb46f",
+      "sha256_after": "ee865477316868f3575b9cc68d2f6b8cbba88f6d10cc37e4d478dc002acfb46f",
+      "non_comment_sha256": "e0ffcc13d23fe65728141498e9066ac02556e61262c3dc9c483ae5cc3e40e33a"
+    },
+    "tests/z80_flags.c": {
+      "sha256_before": "91642ad53f32e7343fc179fc72e159afc0798e28abd0c4eddb18eb2d538f0adc",
+      "sha256_after": "91642ad53f32e7343fc179fc72e159afc0798e28abd0c4eddb18eb2d538f0adc",
+      "non_comment_sha256": "2fada30407c2a16a8e9c52dd35f6a473a6809aba14606ad18f83632021b3e092"
+    },
+    "vendor/smsplus/cpu/cpuintrf.h": {
+      "sha256_before": "7542e8887127321807330563d9eae4e6455e4588ee01ca0ce1d72cda9923b797",
+      "sha256_after": "7542e8887127321807330563d9eae4e6455e4588ee01ca0ce1d72cda9923b797",
+      "non_comment_sha256": "5f5b6158d7b1d88346a29ae234332144da773205da9b0e657b9b09ef2b671d45"
+    },
+    "vendor/smsplus/cpu/osd_cpu.h": {
+      "sha256_before": "4ec442a960f4905e625ab030adf413716782cf203936aea3790dcc2e4a3131f7",
+      "sha256_after": "4ec442a960f4905e625ab030adf413716782cf203936aea3790dcc2e4a3131f7",
+      "non_comment_sha256": "295d1356a1c6aee3811407ad56f7b32046c57e3d3d50fb5bcdf636ce96e813ed"
+    },
+    "vendor/smsplus/cpu/z80.c": {
+      "sha256_before": "f62da2c8752bed51c0dc7fd612bd3aaf5dd5dae0d60d64fbeaaf7c46dd5c59d2",
+      "sha256_after": "3818d183a8d2c16839eb7375864f23cab49a042f905f7defbe564245360d79af",
+      "non_comment_sha256": "a6717244f3815a1c3667a1ad78677d79290847749f74ac51f83c69adc8519652"
+    },
+    "vendor/smsplus/cpu/z80.h": {
+      "sha256_before": "89b3423eba3bd7b822740b461670d19c74412aef8f82de49a45b3ecfcf5249d1",
+      "sha256_after": "89b3423eba3bd7b822740b461670d19c74412aef8f82de49a45b3ecfcf5249d1",
+      "non_comment_sha256": "4dc761b842789f5a96e016bcf15caec9b0dff6b3e4870cb71e9472cf7e86db6c"
+    },
+    "vendor/smsplus/hvc.h": {
+      "sha256_before": "336abd7e46ff944e7afaaa186d6ffd89d7875ee571f85e881a1994964a60ff30",
+      "sha256_after": "336abd7e46ff944e7afaaa186d6ffd89d7875ee571f85e881a1994964a60ff30",
+      "non_comment_sha256": "f98a924eaa8fbdb54a71fffb51ed6801876c59e9ad4fcbd21d32d40231086c02"
+    },
+    "vendor/smsplus/loadrom.h": {
+      "sha256_before": "7fc5757878f439957ac72d64cb402dad88ac286eb398c7d841634b01e3894708",
+      "sha256_after": "7fc5757878f439957ac72d64cb402dad88ac286eb398c7d841634b01e3894708",
+      "non_comment_sha256": "fb1fe9172d99b83d1de4292c989ffea093a16bcc9f187bec78c02a40a9877a47"
+    },
+    "vendor/smsplus/memz80.c": {
+      "sha256_before": "0a6bda32ca40833d1b5141f896e1e3b524d478ef6518bd84e30da6c12c305a8c",
+      "sha256_after": "0a6bda32ca40833d1b5141f896e1e3b524d478ef6518bd84e30da6c12c305a8c",
+      "non_comment_sha256": "2955008b5131247db97b4de6f8a708ff9644fcefac4b485875e354769ddc74bb"
+    },
+    "vendor/smsplus/memz80.h": {
+      "sha256_before": "6358b123aa059baebe62ce1b127cb99041d6a96c204cffcf6823c1fae489d034",
+      "sha256_after": "6358b123aa059baebe62ce1b127cb99041d6a96c204cffcf6823c1fae489d034",
+      "non_comment_sha256": "087106fdd13b29973cf6f3b29e9e605e82688c2c09f203b602b00c7dd7bf3bbd"
+    },
+    "vendor/smsplus/pio.c": {
+      "sha256_before": "25a38d283cef9fedf0b2a34efb0d23b0925ede2bfff835d34bae680486c2bf6d",
+      "sha256_after": "25a38d283cef9fedf0b2a34efb0d23b0925ede2bfff835d34bae680486c2bf6d",
+      "non_comment_sha256": "9328c2c4ffc55b04ac8cb3f60166605b4b9c8bd52f84b283c62554b70c93c5c9"
+    },
+    "vendor/smsplus/pio.h": {
+      "sha256_before": "12121f8e125bff743dc6fc593bbdee1156e1d85d764710a1a179cb3241847716",
+      "sha256_after": "12121f8e125bff743dc6fc593bbdee1156e1d85d764710a1a179cb3241847716",
+      "non_comment_sha256": "b02e5d3bfcd876203fc3bd2f2b1ac2c4be2e7ec06b750a87ff5078ebcfbb32e6"
+    },
+    "vendor/smsplus/render.c": {
+      "sha256_before": "d4976449a21df9b5d018a368b19a470027b65db3230fbcec2f46b63e297ad48a",
+      "sha256_after": "d4976449a21df9b5d018a368b19a470027b65db3230fbcec2f46b63e297ad48a",
+      "non_comment_sha256": "1c168ef6be48c4286b8d734ce79975a6c177916f87f371ef90746b883d3fc0c5"
+    },
+    "vendor/smsplus/render.h": {
+      "sha256_before": "d0000379bb37df9c82aa1a106d08828a9c432f8edeeccf458fb33915ed73363c",
+      "sha256_after": "d0000379bb37df9c82aa1a106d08828a9c432f8edeeccf458fb33915ed73363c",
+      "non_comment_sha256": "4cf08c79dee117cdb3f24f48a11eb69aa61775099ba09798d89f3931f3f218ed"
+    },
+    "vendor/smsplus/shared.h": {
+      "sha256_before": "d629198f5102c886cb6ee895da68117f7ad6a2afed8dd6075bca7f7154eff7fd",
+      "sha256_after": "d629198f5102c886cb6ee895da68117f7ad6a2afed8dd6075bca7f7154eff7fd",
+      "non_comment_sha256": "e662ba0b401dde9be3b3fe1250b2b4956a46730f24d8de576c0ce58911852562"
+    },
+    "vendor/smsplus/sms.c": {
+      "sha256_before": "5990bf7df565ff14a869908f57ed6dc2ef44d50ea0646ae8fb11814a251f0806",
+      "sha256_after": "5990bf7df565ff14a869908f57ed6dc2ef44d50ea0646ae8fb11814a251f0806",
+      "non_comment_sha256": "a880fd34b762068cdb498f0166a689a241712cc6eaec741b89b8f78ebdbab682"
+    },
+    "vendor/smsplus/sms.h": {
+      "sha256_before": "0898fb8a247ba8b0f74acab7767fdabf6d2d3bd8a19cb4eae0365ac2cebf7161",
+      "sha256_after": "0898fb8a247ba8b0f74acab7767fdabf6d2d3bd8a19cb4eae0365ac2cebf7161",
+      "non_comment_sha256": "832c85139d4d403f5775418c8242e6d2998ad68cd972d52c68ae3b4fd4f0db1a"
+    },
+    "vendor/smsplus/sound/emu2413.h": {
+      "sha256_before": "b99526afcee6c033b16ba511f738555a6a8425c4803bb175290f37af79db14bd",
+      "sha256_after": "b99526afcee6c033b16ba511f738555a6a8425c4803bb175290f37af79db14bd",
+      "non_comment_sha256": "41ae1dd4c8e139d978ddb8c8bd8da8a42cb958e6e459dc2863aa2e945ce10cdc"
+    },
+    "vendor/smsplus/sound/fmintf.h": {
+      "sha256_before": "2f44f8c467cd2e9516baead6722eb330533d11c2572eef9f75edd8b163f24200",
+      "sha256_after": "2f44f8c467cd2e9516baead6722eb330533d11c2572eef9f75edd8b163f24200",
+      "non_comment_sha256": "2a5fe00c8c9d39c1a4086d6faf00084ce598b93a68a25ee0cb78b0288e05ff1f"
+    },
+    "vendor/smsplus/sound/sn76489.c": {
+      "sha256_before": "38a1acdc7c065ad527c958992f2aff01816e9632461742238f667427e049abe7",
+      "sha256_after": "38a1acdc7c065ad527c958992f2aff01816e9632461742238f667427e049abe7",
+      "non_comment_sha256": "1bf5ea07619423cfbcdf80fe454e6b9ce5d81894fe147ff853261fa10e1427b6"
+    },
+    "vendor/smsplus/sound/sn76489.h": {
+      "sha256_before": "1132822846012b6b51424ddb3d2054e0ee5d576faf0031f58fa917251813fd51",
+      "sha256_after": "1132822846012b6b51424ddb3d2054e0ee5d576faf0031f58fa917251813fd51",
+      "non_comment_sha256": "1c091f116eab0a0c034f23d2c3ca35cc264a17627585fe9616cb4f6efeb2e3a1"
+    },
+    "vendor/smsplus/sound/sound.c": {
+      "sha256_before": "e4cedf670d1f46d626497bbc00a765a6d4f80de89e8c6f715680fa62bee875f5",
+      "sha256_after": "e4cedf670d1f46d626497bbc00a765a6d4f80de89e8c6f715680fa62bee875f5",
+      "non_comment_sha256": "220001d42644b4213c0a7170da4b5714bee1bdf0f5dd4dc11e5291c6adffc5f3"
+    },
+    "vendor/smsplus/sound/sound.h": {
+      "sha256_before": "a3b540366c20178fcceaab98dcd88490635f7869bf72b2e73aba1b172c1798e5",
+      "sha256_after": "a3b540366c20178fcceaab98dcd88490635f7869bf72b2e73aba1b172c1798e5",
+      "non_comment_sha256": "6bdb1f1a8e70009731b082ca87f48c7e2483dbe3f514165f0d5a16c971dbd455"
+    },
+    "vendor/smsplus/sound/ym2413.h": {
+      "sha256_before": "6c41706d78a83dc51457341c1f51f87d81cefd2e13fe61fc56c8ded6794e6975",
+      "sha256_after": "6c41706d78a83dc51457341c1f51f87d81cefd2e13fe61fc56c8ded6794e6975",
+      "non_comment_sha256": "a02f0d194bf1cc9021c18d4b1600e2f695999ba8e0ec544a744fab07e452f896"
+    },
+    "vendor/smsplus/state.h": {
+      "sha256_before": "326f1bc030ceb79eab269876b2031e2e3331643eb5acd4a9a3a54dea8163a161",
+      "sha256_after": "326f1bc030ceb79eab269876b2031e2e3331643eb5acd4a9a3a54dea8163a161",
+      "non_comment_sha256": "15387cbfb4c4471be0e3ffd5c9440932b78c9d5b75bed85fae0416ff69d2bba3"
+    },
+    "vendor/smsplus/system.c": {
+      "sha256_before": "ccf4e6397d7ae8bf0eb3218f0f41a1332e41347872c004cc0580e2a76354b2b8",
+      "sha256_after": "ccf4e6397d7ae8bf0eb3218f0f41a1332e41347872c004cc0580e2a76354b2b8",
+      "non_comment_sha256": "fb2887290d99d285f289d8e798026009f05809d11ba3891cedb6044eca76b690"
+    },
+    "vendor/smsplus/system.h": {
+      "sha256_before": "afa962a37340a9d5978854f7e9fa6b976d24969ff46c2487d4f3ef781b4131bc",
+      "sha256_after": "afa962a37340a9d5978854f7e9fa6b976d24969ff46c2487d4f3ef781b4131bc",
+      "non_comment_sha256": "f43c2fd05f227faa2ae42cf4b4fb3e2ec08498df5b4a292a09ffa80ee7b8b444"
+    },
+    "vendor/smsplus/tms.c": {
+      "sha256_before": "94e676eb7ce80b48249192f3d5a59e335ec1a73af508258e8b9cf579aa378d17",
+      "sha256_after": "94e676eb7ce80b48249192f3d5a59e335ec1a73af508258e8b9cf579aa378d17",
+      "non_comment_sha256": "bcac78d9809e84ae66f12a18a6ce60f951e479bdee6a57a8509e2ca6da563faf"
+    },
+    "vendor/smsplus/tms.h": {
+      "sha256_before": "031e8838cb600bacb73c2952b38662c8aaa039013550dd575ea028c3cb9d5edc",
+      "sha256_after": "031e8838cb600bacb73c2952b38662c8aaa039013550dd575ea028c3cb9d5edc",
+      "non_comment_sha256": "fd1d7096cc8b70e08ca3e414a5407a618989a5e4e8eab38d981cd55c51bfb741"
+    },
+    "vendor/smsplus/vdp.c": {
+      "sha256_before": "55d1129d259fb6446002a5a997e089971cd5b26b4b6b15bc06499b30e0fda583",
+      "sha256_after": "55d1129d259fb6446002a5a997e089971cd5b26b4b6b15bc06499b30e0fda583",
+      "non_comment_sha256": "595e022444b849eafa432b58683e8783cd820e3c409ab5905f3416566e45fa0a"
+    },
+    "vendor/smsplus/vdp.h": {
+      "sha256_before": "b3e46a35a3872d0cda9446f9709cc9a4832b2dc3c25a3ca0bcf7528dc0183336",
+      "sha256_after": "b3e46a35a3872d0cda9446f9709cc9a4832b2dc3c25a3ca0bcf7528dc0183336",
+      "non_comment_sha256": "d55e10b10c9508a83e5a0a23bbaa5b79f697c4e57da59dc686f4553f967bd6c0"
+    },
+    "web.c": {
+      "sha256_before": "9016cf3bc2b829ee523caf7e4783b80ec9d1a4b990519fae7982f0e1b05c3a7a",
+      "sha256_after": "9016cf3bc2b829ee523caf7e4783b80ec9d1a4b990519fae7982f0e1b05c3a7a",
+      "non_comment_sha256": "faef7c7965c94d22b0cfd7efca9e4efa1de199e9c032ac39079b09544a722858"
+    }
+  },
+  "changed_c_files": [
+    "vendor/smsplus/cpu/z80.c"
+  ],
+  "execution_source_unchanged": true,
+  "rom_unchanged": true,
+  "tested_firmware": {
+    "product": "FM-1_9500",
+    "bytes": 610136,
+    "sha256": "240b88be9ba051440854016dc925f1c9e4d4967fe55d4163d23491e665e794e6",
+    "binary_rebuilt": false,
+    "binary_flashed": false,
+    "binary_published": false
+  },
+  "host_cpu_object_comparison": {
+    "identical": true,
+    "bytes": 48136,
+    "sha256_before": "68dcc293170167048373ed42ff8664fd5534785aa61ab59f7d9c2a2d3b510b51",
+    "sha256_after": "68dcc293170167048373ed42ff8664fd5534785aa61ab59f7d9c2a2d3b510b51",
+    "compiler": "Apple clang version 17.0.0 (clang-1700.6.3.2)",
+    "flags": [
+      "-O2",
+      "-fno-strict-aliasing",
+      "-w",
+      "-DPLAT_HOST",
+      "-I.",
+      "-Ibuild/gen",
+      "-Iplatform/fm1-base/include",
+      "-Ivendor/smsplus",
+      "-Ivendor/smsplus/cpu",
+      "-c",
+      "-x",
+      "c",
+      "-"
+    ],
+    "device_object_comparison_claimed": false
+  },
+  "reimport": {
+    "success": true,
+    "files_compared": 36,
+    "original_source_hashes_preserved": true,
+    "scope": "Reimport in isolated temporary directory; every vendored file except updated provenance JSON byte-identical"
+  },
+  "submodules": {
+    "platform/fm1-base": {
+      "commit": "bbfd4615e344028c90375bbdd79968e1b6ba2cd9",
+      "tracked_tree_clean": true
+    },
+    "platform/fm1-base/bsp": {
+      "commit": "33cac693903e753e8783baeed05c19cadfb04812",
+      "tracked_tree_clean": true
+    }
+  }
+}

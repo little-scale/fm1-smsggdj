@@ -2,7 +2,8 @@
 """One-time reproducible import of the user's working Waveshare SMS Plus core.
 
 The resulting vendor tree is checked in; normal builds do not need the old project.
-Original per-file licences apply, including the Z80 non-commercial notice.
+Original per-file licences apply. The documented later Z80 permissions are
+reapplied as a notice-only patch after the performance patch.
 """
 import hashlib
 import json
@@ -12,6 +13,8 @@ import subprocess
 from pathlib import Path
 
 APP = Path(__file__).resolve().parents[1]
+provenance_path = APP / 'vendor/provenance.json'
+provenance = json.loads(provenance_path.read_text()) if provenance_path.exists() else {}
 source = Path(sys.argv[1]).resolve()
 dest = APP / 'vendor/smsplus'
 files = ['COPYING', 'CREDITS', 'PORTING', 'shared.h', 'hvc.h',
@@ -175,13 +178,23 @@ p.write_text(s)
 
 # Reapply the small performance changes after the reproducible base import.
 subprocess.run(['git', 'apply', str(APP/'vendor/performance.patch')], cwd=APP, check=True)
+subprocess.run(['git', 'apply', str(APP/'vendor/licensing.patch')], cwd=APP, check=True)
 
-(APP / 'vendor/provenance.json').write_text(json.dumps({
+provenance.update({
     'source': 'https://github.com/ducalex/retro-go',
     'revision': '4ced120669750ca7228fd0414211430c1d923166',
     'inherited_port': 'smsggdj-waveshare, September 2026, write-timed PSG and portable renderer',
     'original_sha256': original,
     'imported_sha256': {f: hashlib.sha256((dest/f).read_bytes()).hexdigest() for f in files},
     'rom_modified': False,
-}, indent=2) + '\n')
+    'z80_licensing': {
+        'original_core_and_smsplus_gx_changes': 'BSD-3-Clause',
+        'retro_go_adaptations': 'GPL-2.0-only',
+        'fm1_modifications': 'MIT',
+        'combined_file_distribution': 'GPL-2.0-only',
+        'permission_history': 'vendor/Z80-LICENSING.md',
+        'evidence': 'evidence/licensing/permissions.json',
+    },
+})
+provenance_path.write_text(json.dumps(provenance, indent=2) + '\n')
 print('Imported SMS Plus; RAM tables replaced, scanline stepping and instruction hook added.')

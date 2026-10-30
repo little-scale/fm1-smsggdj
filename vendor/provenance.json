@@ -58,7 +58,7 @@
     "vdp.h": "b3e46a35a3872d0cda9446f9709cc9a4832b2dc3c25a3ca0bcf7528dc0183336",
     "state.h": "326f1bc030ceb79eab269876b2031e2e3331643eb5acd4a9a3a54dea8163a161",
     "loadrom.h": "7fc5757878f439957ac72d64cb402dad88ac286eb398c7d841634b01e3894708",
-    "cpu/z80.c": "f62da2c8752bed51c0dc7fd612bd3aaf5dd5dae0d60d64fbeaaf7c46dd5c59d2",
+    "cpu/z80.c": "3818d183a8d2c16839eb7375864f23cab49a042f905f7defbe564245360d79af",
     "cpu/z80.h": "89b3423eba3bd7b822740b461670d19c74412aef8f82de49a45b3ecfcf5249d1",
     "cpu/cpuintrf.h": "7542e8887127321807330563d9eae4e6455e4588ee01ca0ce1d72cda9923b797",
     "cpu/osd_cpu.h": "4ec442a960f4905e625ab030adf413716782cf203936aea3790dcc2e4a3131f7",
@@ -73,5 +73,13 @@
   "rom_modified": false,
   "fm1_manager_revision": "Runtime ROM profile PCs replace compile-time hook PCs.",
   "freestanding_headers": "Device uses platform memory routines via compat.h; hosted stdio/stdlib/math/assert headers are host-only.",
-  "fm1_performance_revision": "Cycle-equivalent HALT batching; 48 KiB signature-checked decoded tile rows; explicit builtin tiny copies. See vendor/performance.patch."
+  "fm1_performance_revision": "Cycle-equivalent HALT batching; 48 KiB signature-checked decoded tile rows; explicit builtin tiny copies. See vendor/performance.patch.",
+  "z80_licensing": {
+    "original_core_and_smsplus_gx_changes": "BSD-3-Clause",
+    "retro_go_adaptations": "GPL-2.0-only",
+    "fm1_modifications": "MIT",
+    "combined_file_distribution": "GPL-2.0-only",
+    "permission_history": "vendor/Z80-LICENSING.md",
+    "evidence": "evidence/licensing/permissions.json"
+  }
 }

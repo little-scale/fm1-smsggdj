@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "retrieved_at_utc": "2026-10-30T17:53:25.458948+00:00",
+  "scope": "Underlying Portable Z80 V3.9 and shared Eke-Eke CPU changes; not a grant for unrelated emulator components",
+  "mame_relicensing": {
+    "commit": "31abc855dbcd0747092136b4fd91ab9824c9f208",
+    "url": "https://github.com/mamedev/mame/commit/31abc855dbcd0747092136b4fd91ab9824c9f208",
+    "date": "2015-05-07T16:37:06Z",
+    "path": "src/emu/cpu/z80/z80.c",
+    "license": "BSD-3-Clause",
+    "change": "Deletes the non-commercial notice and adds BSD-3-Clause; no CPU execution code changed by this upstream file diff"
+  },
+  "original_author_confirmation": {
+    "author": "pullmoll",
+    "url": "https://github.com/mamedev/mame/issues/1948#issuecomment-271440403",
+    "date": "2017-01-09T23:25:55Z",
+    "summary": "Juergen Buchmueller accepts the discussed BSD use of the contributed Z80 core; following maintainer comment supplies the full BSD notice"
+  },
+  "smsplus_gx_permission": {
+    "author": "ekeeke",
+    "url": "https://github.com/alekmaul/emultwo/issues/2#issuecomment-3595854583",
+    "date": "2025-12-01T10:46:07Z",
+    "statement": "Yes, i confirm I have no problem with the relicensing of my z80.c changes",
+    "context": "Immediately preceding question asks about BSD3 relicensing of Eke-Eke additional z80.c changes",
+    "license": "BSD-3-Clause",
+    "assessment": "The published BSD3 agreement is applied to the shared Z80 changes identified in both fork histories; it is not treated as a general licence for other Eke-Eke projects."
+  },
+  "published_legacy_fork": {
+    "commit": "35435644109ba90c13e5fc15007904edddc7503f",
+    "url": "https://github.com/alekmaul/emultwo/blob/35435644109ba90c13e5fc15007904edddc7503f/src/z80/z80.c",
+    "role": "Supporting example of the BSD relicensing, not replacement CPU code"
+  },
+  "retro_go": {
+    "commit": "4ced120669750ca7228fd0414211430c1d923166",
+    "url": "https://github.com/ducalex/retro-go/blob/4ced120669750ca7228fd0414211430c1d923166/README.md#license",
+    "adaptations_license": "GPL-2.0-only",
+    "retained": true
+  },
+  "source_blobs": {
+    "mame-bsd-z80": {
+      "git_blob": "df11378ffac43d8320c9a7fb8b7f9fe9556ff750",
+      "sha256": "702d23a54c9255eea9ab5b1be8757e1c50788b11f0e8b1a86b23d9ff72926416",
+      "bytes": 192756
+    },
+    "emultwo-z80": {
+      "git_blob": "f1d4a8e6fbe1f3af3fbcf5b1d490bc4bb967b127",
+      "sha256": "13c1aae586267a903dbea261c39b420287e6835e6a8e5c4105c9a2d1177565f7",
+      "bytes": 215733
+    },
+    "retro-z80": {
+      "git_blob": "193119115ccac4cbbe20eb944e41cb270bc540a4",
+      "sha256": "d93c265355af28806fbbbe0c733f6c84660d9f23b7b773230b647cbfa1406a90",
+      "bytes": 108416
+    }
+  },
+  "new_private_permission_claimed": false,
+  "new_author_contact_sent": false
+}

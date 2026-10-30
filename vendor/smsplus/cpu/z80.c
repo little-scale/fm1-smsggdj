@@ -1,22 +1,18 @@
-/* FM1 port: compact arithmetic flags and RAM adapter hook; original notice retained below. */
+/* SPDX-License-Identifier: GPL-2.0-only */
+/* FM1 port: compact arithmetic flags and RAM adapter hook; permission history documented. */
 /*****************************************************************************
  *
  *   z80.c
  *   Portable Z80 emulator V3.9
  *
- *   Copyright Juergen Buchmueller, all rights reserved.
+ *   Copyright Juergen Buchmueller and the MAME contributors.
+ *   SMS Plus GX changes: Copyright Eke-Eke.
  *
- *   - This source code is released as freeware for non-commercial purposes.
- *   - You are free to use and redistribute this code in modified or
- *     unmodified form, provided you list me in the credits.
- *   - If you modify this source code, you must add a notice to each modified
- *     source file that it has been changed.  If you're a nice person, you
- *     will clearly mark each change too.  :)
- *   - If you wish to use this for commercial purposes, please contact me at
- *     pullmoll@t-online.de
- *   - The author of this copywritten work reserves the right to change the
- *     terms of its usage and license at any time, including retroactively
- *   - This entire notice must remain in the source code.
+ *   The underlying Z80 V3.9 and Eke-Eke changes are available under
+ *   BSD-3-Clause; see LICENSE.BSD-3-Clause in this directory.
+ *   Retro-Go adaptations are retained under GPL-2.0, and the original
+ *   FM1 modifications retain their MIT grant. This combined file is
+ *   distributed under GPL-2.0. Permission history: vendor/Z80-LICENSING.md.
  *
  *   TODO:
  *    - If LD A,I or LD A,R is interrupted, P/V flag gets reset, even if IFF2
