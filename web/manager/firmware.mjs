@@ -23,7 +23,8 @@ export function describeIdentity(id){
   const version=firmwareVersion(id.text);
   if(version)return `SMSGGDJ · ${version}`;
   if(id.text===STOCK_PRODUCT)return 'M-VAVE stock V15';
-  return `Other FM1 firmware · ${id.text}`;
+  if(/^FM-1_94(?:\d{2}|\d{6})$/.test(id.text))return 'RNBO Player';
+  return 'Other FM1 firmware';
 }
 export async function inspectFirmware(input,{expectedSHA256}={}){
   const bytes=input instanceof Uint8Array?input:new Uint8Array(input);

@@ -67,6 +67,11 @@ check($('release-status').textContent.includes('not published'),'no firmware dow
 await $('connect').onclick();
 check($('installed-firmware').textContent.includes('stock V15'),'one-click connection identifies stock firmware');
 check($('read-device').disabled,'song transfer disabled for stock firmware');
+input.identity='FM-1_9400';await $('connect').onclick();
+check($('installed-firmware').textContent==='RNBO Player · FM-1_9400','RNBO identity is named and displayed once');
+check($('read-device').disabled,'song transfer disabled for RNBO firmware');
+input.identity='FM-1_9600';await $('connect').onclick();
+check($('installed-firmware').textContent==='Other FM1 firmware · FM-1_9600','unknown firmware identifier is displayed once');
 const fixture=spawnSync(process.env.PYTHON||'python3',[path.join(APP,'tools/browser_fixture.py')],{maxBuffer:4*1024*1024});assert.equal(fixture.status,0,fixture.stderr.toString());
 const raw=Uint8Array.from(fixture.stdout);
 $('firmware-file').files=[{name:'test.fwsc',size:raw.length,arrayBuffer:async()=>raw.slice().buffer}];

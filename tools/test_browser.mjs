@@ -45,6 +45,8 @@ check(installationIssue(open,{kind:'stock'})===null,'Open firmware can restore v
 check(installationIssue(ota,prepared)===null,'loader can resume');
 check(/not an FM1/.test(installationIssue({model:'another-device'},prepared)),'wrong device refused');
 check(describeIdentity(gg).includes('1.0.0')&&describeIdentity(open).includes('Open'),'readable installed versions');
+check(describeIdentity({text:'FM-1_9400',model:'FM-1'})==='RNBO Player','RNBO Player has a readable name');
+check(describeIdentity({text:'FM-1_9600',model:'FM-1'})==='Other FM1 firmware','unknown firmware description leaves the identifier to the UI');
 
 function identityPacket(text){const raw=new Uint8Array(34);raw.set([0,0x59,0x11]);raw.set(new TextEncoder().encode(text),6);return Uint8Array.from([0xf0,...pack7(raw),0xf7]);}
 class Input extends EventTarget{
