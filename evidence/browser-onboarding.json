@@ -38,7 +38,16 @@
     "connected_profile": "SMSGGDJ v0.48",
     "reconnection_verified": true
   },
-  "physical_browser_cartridge_transfers_verified": false,
+  "physical_browser_cartridge_transfers_verified": true,
+  "physical_browser_cartridge_transfer_evidence": {
+    "source": "User confirmations during guided hardware tests",
+    "sram_read_and_download": true,
+    "sram_restore_and_song_load": true,
+    "individual_song_upload": true,
+    "song_replace_picker": true,
+    "rom_upload_and_builtin_restore": true,
+    "extended_stress_tested": false
+  },
   "visual_review": "Real Chrome desktop/mobile startup and screenshots passed in GitHub Actions; screenshots inspected.",
   "ci_run": "https://github.com/little-scale/fm1-smsggdj/actions/runs/41094282339",
   "ci_source_commit": "712642f3f7651f3a28bc016bb4ff8d1d9ac29c12",

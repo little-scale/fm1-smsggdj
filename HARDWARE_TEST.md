@@ -14,8 +14,10 @@ audio/video reference and cache/IRQ tests pass. The user has now confirmed
 successful installation through the hosted browser tools and reconnection to
 SMSGGDJ v0.48. They report that playback is "sounding great" and confirm that
 LFO clears the current phrase row without advancing the cursor. These are
-listening and functional confirmations; CPU/overrun measurements, SRAM/song
-transfers and ROM swapping remain unverified on hardware. New image/RAM figures
+listening and functional confirmations. Subsequent user tests also confirmed
+SRAM backup/restore, individual song upload, the repaired Replace file picker,
+and ROM swapping/restoring the built-in ROM. CPU/overrun measurements remain
+unverified on hardware. New image/RAM figures
 must come from the updated build; the figures above are the first-build baseline.
 
 After installing the update, start the same problematic song and run

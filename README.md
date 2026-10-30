@@ -7,8 +7,9 @@ entry through emulated RAM, and includes a browser cartridge manager.
 **Development prototype.** Host, actual WebAssembly tests and the JieLi device
 build pass. On a physical FM1, the user has confirmed successful browser
 installation, good playback after the performance update, and LFO clearing
-without moving the phrase cursor. Hardware CPU/overrun measurements and browser
-cartridge transfers still need verification; no firmware binary is published.
+without moving the phrase cursor. Browser SRAM backup/restore, song upload and
+replacement, and ROM swapping have also been confirmed on hardware. CPU/overrun
+measurements remain unverified; no firmware binary is published.
 This port reuses the SMS Plus core from the earlier
 working ESP32-S3 setup. The default ROM is the unchanged SMSGGDJ **v0.48** Game
 Gear release, pinned with its symbol map and hash in `rom/manifest.json`.
@@ -235,8 +236,8 @@ ESP32 core; the original compact implementation produced byte-identical
 samples and framebuffers in three 600-frame runs. ASan did not complete in the
 original environment; no ASan passing result is claimed.
 
-Physical CPU load, IRQ stack headroom, USB audio, panel response, USB cartridge
-transfers and real power-cycle recovery still need hardware testing. GGFM /
+Physical CPU load, IRQ stack headroom, USB audio recording, extended panel stress
+tests and real power-cycle recovery still need hardware testing. GGFM /
 YM2413, external link sync and MIDI note entry are not implemented. The ROM's
 video is not translated into screen-reader text.
 
